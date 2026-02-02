@@ -1,0 +1,6 @@
+goto-error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5173/
+Call log:
+  [2m- navigating to "http://localhost:5173/", waiting until "load"[22m
+
+
+DETAILS:
