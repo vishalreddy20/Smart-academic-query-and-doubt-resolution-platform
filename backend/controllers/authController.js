@@ -2,9 +2,19 @@ import User from '../models/User.js';
 import OTP from '../models/OTP.js';
 import { generateToken } from '../utils/jwtService.js';
 import { createAndSendOTP, verifyOTP, resendOTP } from '../utils/otpService.js';
-import { sendOTPEmail, sendWelcomeEmail, sendPasswordResetEmail } from '../utils/emailService.js';
+import { isEmailConfigured, sendWelcomeEmail, sendPasswordResetEmail } from '../utils/emailService.js';
 import crypto from 'crypto';
 import asyncHandler from 'express-async-handler';
+
+const resolveFrontendUrl = (req) => {
+  const requestOrigin = req.get('origin');
+
+  if (process.env.NODE_ENV !== 'production' && requestOrigin) {
+    return requestOrigin;
+  }
+
+  return process.env.FRONTEND_URL || requestOrigin || 'http://localhost:5173';
+};
 
 // Register User (Student or Tutor)
 export const register = asyncHandler(async (req, res) => {
@@ -44,15 +54,15 @@ export const register = asyncHandler(async (req, res) => {
 
   // Generate and send OTP
   try {
-    await createAndSendOTP(email, 'signup');
-    const otp = await OTP.findOne({ email });
-    console.log(`OTP for ${email}: ${otp.otp}`); // For development - remove in production
+    const otpResult = await createAndSendOTP(email, 'signup');
     
     res.status(201).json({
       message: 'User registered successfully. Please verify your email with OTP.',
       userId: user._id,
       email: user.email,
       requiresOTPVerification: true,
+      ...(otpResult.deliveryMethod ? { deliveryMethod: otpResult.deliveryMethod } : {}),
+      ...(otpResult.devOtp ? { devOtp: otpResult.devOtp } : {}),
     });
   } catch (error) {
     await User.deleteOne({ _id: user._id });
@@ -159,13 +169,13 @@ export const resendOTPCode = asyncHandler(async (req, res) => {
   }
 
   try {
-    await resendOTP(email, 'signup');
-    const otp = await OTP.findOne({ email });
-    console.log(`OTP for ${email}: ${otp.otp}`); // For development
+    const otpResult = await resendOTP(email, 'signup');
 
     res.json({
       message: 'OTP resent successfully',
       email,
+      ...(otpResult.deliveryMethod ? { deliveryMethod: otpResult.deliveryMethod } : {}),
+      ...(otpResult.devOtp ? { devOtp: otpResult.devOtp } : {}),
     });
   } catch (error) {
     return res.status(400).json({ message: error.message });
@@ -339,13 +349,21 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   user.forgotPasswordExpiry = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
   await user.save();
 
-  const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+  const resetLink = `${resolveFrontendUrl(req)}/reset-password/${resetToken}`;
+  const emailConfigured = isEmailConfigured();
+  const isDevelopment = process.env.NODE_ENV !== 'production';
 
   try {
-    await sendPasswordResetEmail(email, resetLink);
+    if (emailConfigured) {
+      await sendPasswordResetEmail(email, resetLink);
+    } else if (!isDevelopment) {
+      throw new Error('Email service is not configured');
+    }
+
     res.json({
-      message: 'Password reset link sent to your email',
+      message: emailConfigured ? 'Password reset link sent to your email' : 'Development reset link generated',
       email,
+      ...(isDevelopment && !emailConfigured ? { deliveryMethod: 'development-fallback', resetLink } : {}),
     });
   } catch (error) {
     user.forgotPasswordToken = null;

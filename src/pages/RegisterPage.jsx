@@ -7,6 +7,7 @@ import OTPModal from '../components/OTPModal';
 export default function RegisterPage() {
   const [step, setStep] = useState('role'); // 'role', 'form', 'otp'
   const [role, setRole] = useState('student');
+  const [devOtp, setDevOtp] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -62,6 +63,7 @@ export default function RegisterPage() {
 
       setUserId(data.userId);
       setRegisteredEmail(data.email);
+      setDevOtp(data.devOtp || '');
       setStep('otp');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
@@ -297,7 +299,7 @@ export default function RegisterPage() {
       )}
 
       {step === 'otp' && (
-        <OTPModal email={registeredEmail} onSuccess={handleOTPSuccess} />
+        <OTPModal email={registeredEmail} devOtp={devOtp} onSuccess={handleOTPSuccess} />
       )}
     </div>
   );

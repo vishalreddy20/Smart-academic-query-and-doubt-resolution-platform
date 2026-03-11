@@ -8,6 +8,7 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [resetLink, setResetLink] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,8 +21,10 @@ export default function ForgotPasswordPage() {
       setLoading(true);
       setError('');
       setSuccess('');
+      setResetLink('');
       const { data } = await forgotPassword({ email });
       setSuccess(data?.message || 'Password reset link sent to your email');
+      setResetLink(data?.resetLink || '');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to send reset link');
     } finally {
@@ -51,7 +54,17 @@ export default function ForgotPasswordPage() {
         {success && (
           <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-start gap-3">
             <CheckCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
-            <span className="text-sm">{success}</span>
+            <div className="text-sm">
+              <div>{success}</div>
+              {resetLink && (
+                <div className="mt-3 break-all">
+                  <div className="font-medium text-amber-800">Development fallback link:</div>
+                  <a href={resetLink} className="text-indigo-700 underline hover:text-indigo-900">
+                    {resetLink}
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
         )}
 

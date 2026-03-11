@@ -124,16 +124,18 @@ curl http://localhost:5000/api/health
 
 **Solution:** Check `.env` file has:
 ```env
+EMAIL_SERVICE=gmail
 EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
+EMAIL_PORT=465
+EMAIL_SECURE=true
 EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-password
+EMAIL_PASSWORD=your-app-password
 ```
 
 If using Gmail:
 1. Go to myaccount.google.com/app-passwords
 2. Generate app-specific password
-3. Use that password in EMAIL_PASS
+3. Use that password in EMAIL_PASSWORD
 
 ### Page Blank After Login
 **Problem:** Components not rendering or API call failing

@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import OTP from '../models/OTP.js';
+import { sendOTPEmail, isEmailConfigured } from './emailService.js';
 
 export const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
@@ -20,10 +21,22 @@ export const createAndSendOTP = async (email, purpose = 'signup') => {
       purpose,
     });
 
+    const isDevelopment = process.env.NODE_ENV !== 'production';
+
+    if (isEmailConfigured()) {
+      await sendOTPEmail(email, otp);
+    } else if (isDevelopment) {
+      console.warn(`[DEV OTP FALLBACK] Email transport is not configured. OTP for ${email}: ${otp}`);
+    } else {
+      throw new Error('Email service is not configured');
+    }
+
     return {
       success: true,
       message: 'OTP sent to email',
       otpId: otpDoc._id,
+      deliveryMethod: isEmailConfigured() ? 'email' : 'development-fallback',
+      ...(isDevelopment && !isEmailConfigured() ? { devOtp: otp } : {}),
     };
   } catch (error) {
     throw new Error('Failed to create OTP: ' + error.message);

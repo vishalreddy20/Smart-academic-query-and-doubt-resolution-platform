@@ -106,8 +106,22 @@ project/
    MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/smart_doubt_db?retryWrites=true&w=majority
    JWT_SECRET=your_super_secret_key_change_in_production
    PORT=5000
+   FRONTEND_URL=http://localhost:5173
    NODE_ENV=development
+   EMAIL_SERVICE=gmail
+   EMAIL_HOST=smtp.gmail.com
+   EMAIL_PORT=465
+   EMAIL_SECURE=true
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASSWORD=your-16-char-gmail-app-password
+   EMAIL_FROM=your-email@gmail.com
    ```
+
+   Gmail setup notes:
+   1. Turn on 2-Step Verification for the Gmail account.
+   2. Generate an App Password from Google Account settings.
+   3. Use that App Password in `EMAIL_PASSWORD`.
+   4. Keep `EMAIL_FROM` equal to the Gmail address unless you have a verified alias.
 
 4. **Start the backend server**
    ```bash
@@ -143,7 +157,15 @@ project/
 | MONGODB_URI | MongoDB connection string | `mongodb+srv://user:pass@cluster.mongodb.net/db` |
 | JWT_SECRET | Secret key for JWT signing | `your_secret_key_here` |
 | PORT | Backend server port | `5000` |
+| FRONTEND_URL | Frontend origin for reset links and CORS | `http://localhost:5173` |
 | NODE_ENV | Environment mode | `development` or `production` |
+| EMAIL_SERVICE | Mail provider shortcut | `gmail` |
+| EMAIL_HOST | SMTP host | `smtp.gmail.com` |
+| EMAIL_PORT | SMTP port | `465` |
+| EMAIL_SECURE | Use TLS/SSL transport | `true` |
+| EMAIL_USER | Sender Gmail account | `your-email@gmail.com` |
+| EMAIL_PASSWORD | Gmail App Password | `abcd efgh ijkl mnop` |
+| EMAIL_FROM | Visible sender email | `your-email@gmail.com` |
 
 ## API Endpoints
 

@@ -417,8 +417,9 @@ npm run dev
 ```
 MONGODB_URI=mongodb://localhost:27017/tutorify_db
 JWT_SECRET=your-secret-key
+EMAIL_SERVICE=gmail
 EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-password
+EMAIL_PASSWORD=your-app-password
 RAZORPAY_KEY_ID=your-key
 RAZORPAY_SECRET_KEY=your-secret
 ADMIN_SECRET_CODE=ADMIN_2024

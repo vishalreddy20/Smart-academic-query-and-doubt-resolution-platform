@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { isEmailConfigured } from './utils/emailService.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { deleteExpiredOTPs } from './utils/otpService.js';
 import User from './models/User.js';
@@ -153,4 +154,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✓ Server running on port ${PORT}`);
   console.log(`✓ Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
+  if (!isEmailConfigured()) {
+    console.warn('! Email service is not configured. Gmail App Password or SMTP credentials are required for real email delivery.');
+  }
 });

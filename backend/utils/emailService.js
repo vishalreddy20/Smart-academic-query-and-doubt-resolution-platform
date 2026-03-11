@@ -1,18 +1,82 @@
 import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+const hasPlaceholderValue = (value = '') =>
+  [
+    'your_email@gmail.com',
+    'your_app_password_here',
+    'your_gmail_app_password',
+    'noreply@tutorify.com',
+  ].includes(value);
+
+const parseBoolean = (value) => `${value}`.toLowerCase() === 'true';
+
+const normalizeEmailConfig = () => {
+  const service = (process.env.EMAIL_SERVICE || '').trim().toLowerCase();
+  const user = (process.env.EMAIL_USER || '').trim();
+  const rawPassword = (process.env.EMAIL_PASSWORD || '').trim();
+  const isGmail = service === 'gmail' || process.env.EMAIL_HOST === 'smtp.gmail.com';
+  const password = isGmail ? rawPassword.replace(/\s+/g, '') : rawPassword;
+  const host = process.env.EMAIL_HOST || (isGmail ? 'smtp.gmail.com' : '');
+  const port = Number(process.env.EMAIL_PORT || (isGmail ? 465 : 587));
+  const secure = process.env.EMAIL_SECURE ? parseBoolean(process.env.EMAIL_SECURE) : port === 465;
+  const from = (process.env.EMAIL_FROM || user).trim();
+
+  return {
+    service,
+    isGmail,
+    host,
+    port,
+    secure,
+    user,
+    password,
+    from,
+  };
+};
+
+export const isEmailConfigured = () => {
+  const config = normalizeEmailConfig();
+  const requiredValues = [config.host, config.port, config.user, config.password, config.from];
+
+  return requiredValues.every(Boolean)
+    && !hasPlaceholderValue(config.user)
+    && !hasPlaceholderValue(config.password)
+    && !hasPlaceholderValue(config.from);
+};
+
+const createTransporter = () => {
+  const config = normalizeEmailConfig();
+
+  if (config.isGmail) {
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: config.user,
+        pass: config.password,
+      },
+    });
+  }
+
+  return nodemailer.createTransport({
+    host: config.host,
+    port: config.port,
+    secure: config.secure,
+    auth: {
+      user: config.user,
+      pass: config.password,
+    },
+  });
+};
 
 export const sendEmail = async (to, subject, html) => {
   try {
+    if (!isEmailConfigured()) {
+      throw new Error('Email service is not configured');
+    }
+
+    const config = normalizeEmailConfig();
+    const transporter = createTransporter();
     const mailOptions = {
-      from: process.env.EMAIL_FROM,
+      from: config.from,
       to,
       subject,
       html,
