@@ -7,6 +7,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AdminRegisterPage from './pages/AdminRegisterPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import StudentDashboard from './pages/StudentDashboard';
 import TutorDashboard from './pages/TutorDashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -30,6 +32,7 @@ function App() {
     if (user.role === 'student') return <Navigate to="/student" />;
     if (user.role === 'tutor') return <Navigate to="/tutor" />;
     if (user.role === 'admin') return <Navigate to="/admin" />;
+    return <Navigate to="/login" />;
   };
 
   return (
@@ -41,6 +44,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register-admin" element={<AdminRegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/knowledge-base" element={<KnowledgeBasePage />} />
 
         {/* Student Routes */}
