@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { deleteExpiredOTPs } from './utils/otpService.js';
 import User from './models/User.js';
@@ -17,6 +19,11 @@ import adminRoutes from './routes/adminRoutes.js';
 
 // Load env variables
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const frontendDistPath = path.resolve(__dirname, '../dist');
+const isProduction = process.env.NODE_ENV === 'production';
 
 const app = express();
 
@@ -120,6 +127,18 @@ app.get('/api/subjects', async (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({ status: 'Backend running', timestamp: new Date() });
 });
+
+if (isProduction) {
+  app.use(express.static(frontendDistPath));
+
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
+
+    return res.sendFile(path.join(frontendDistPath, 'index.html'));
+  });
+}
 
 // 404 Handler
 app.use(notFoundHandler);
