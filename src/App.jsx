@@ -1,9 +1,10 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
+import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AdminRegisterPage from './pages/AdminRegisterPage';
@@ -15,29 +16,39 @@ import AdminDashboard from './pages/AdminDashboard';
 import PostDoubtPage from './pages/PostDoubtPage';
 import KnowledgeBasePage from './pages/KnowledgeBasePage';
 import FacultyDashboard from './pages/FacultyDashboard';
+import DoubtDetailPage from './pages/DoubtDetailPage';
+import SubscriptionPage from './pages/SubscriptionPage';
+import ProfilePage from './pages/ProfilePage';
 
-function App() {
+function AppContent() {
   const { user, loading } = useAuth();
+  const location = useLocation();
+
+  const hideNavbarOn = ['/', '/student', '/post-doubt', '/tutor', '/admin', '/faculty', '/knowledge-base'];
+  const shouldHideNavbar = hideNavbarOn.some((path) => location.pathname === path || location.pathname.startsWith(`${path}/`));
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-indigo-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-14 w-14 border-4 border-indigo-600 border-t-transparent mx-auto mb-4"></div>
+          <p className="text-slate-500 font-medium">Loading Smart Doubts...</p>
+        </div>
       </div>
     );
   }
 
   const getDashboard = () => {
-    if (!user) return <Navigate to="/login" />;
+    if (!user) return <LandingPage />;
     if (user.role === 'student') return <Navigate to="/student" />;
     if (user.role === 'tutor') return <Navigate to="/tutor" />;
     if (user.role === 'admin') return <Navigate to="/admin" />;
-    return <Navigate to="/login" />;
+    return <LandingPage />;
   };
 
   return (
-    <Router>
-      <Navbar />
+    <>
+      {!shouldHideNavbar && <Navbar />}
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={getDashboard()} />
@@ -47,6 +58,26 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/knowledge-base" element={<KnowledgeBasePage />} />
+
+        {/* Profile Route — all authenticated roles */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Doubt Detail — student and tutor can view */}
+        <Route
+          path="/doubt/:id"
+          element={
+            <ProtectedRoute>
+              <DoubtDetailPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Student Routes */}
         <Route
@@ -65,13 +96,21 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/subscription"
+          element={
+            <ProtectedRoute requiredRole="student">
+              <SubscriptionPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Tutor Routes */}
         <Route
           path="/tutor"
           element={
             <ProtectedRoute requiredRole="tutor">
-              <TutorDashboard />
+              <FacultyDashboard />
             </ProtectedRoute>
           }
         />
@@ -86,22 +125,29 @@ function App() {
           }
         />
 
-        {/* Faculty (Legacy) Routes */}
+        {/* Faculty (Legacy) */}
         <Route
           path="/faculty"
           element={
-            <ProtectedRoute requiredRole="faculty">
-              <FacultyDashboard />
+            <ProtectedRoute requiredRole="tutor">
+              <Navigate to="/tutor" replace />
             </ProtectedRoute>
           }
         />
 
-        {/* Catch-all 404 */}
+        {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
 
 export default App;
-
