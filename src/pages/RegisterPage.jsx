@@ -1,22 +1,20 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { registerUser } from '../services/api';
-import { UserPlus, AlertCircle, CheckCircle } from 'lucide-react';
 import OTPModal from '../components/OTPModal';
 
 export default function RegisterPage() {
-  const [step, setStep] = useState('role'); // 'role', 'form', 'otp'
+  const [step, setStep] = useState('form'); // 'form', 'otp'
   const [role, setRole] = useState('student');
   const [devOtp, setDevOtp] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    phone: '',
-    college: '',
-    branch: '',
-    graduationYear: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,6 +25,16 @@ export default function RegisterPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Calculate password strength
+    if (name === 'password') {
+      let strength = 0;
+      if (value.length >= 8) strength++;
+      if (/[A-Z]/.test(value)) strength++;
+      if (/[0-9]/.test(value)) strength++;
+      if (/[!@#$%^&*]/.test(value)) strength++;
+      setPasswordStrength(strength);
+    }
   };
 
   const validateForm = () => {
@@ -38,8 +46,8 @@ export default function RegisterPage() {
       setError('Passwords do not match');
       return false;
     }
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters');
       return false;
     }
     return true;
@@ -57,7 +65,9 @@ export default function RegisterPage() {
       setError('');
 
       const { data } = await registerUser({
-        ...formData,
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
         role,
       });
 
@@ -77,230 +87,224 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex items-center justify-center px-4 py-8">
-      {step === 'role' && (
-        <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-8">
-          <div className="flex justify-center mb-6">
-            <div className="bg-indigo-600 p-3 rounded-full">
-              <UserPlus className="w-8 h-8 text-white" />
-            </div>
-          </div>
+    <main className="flex min-h-screen flex-col md:flex-row bg-background">
+      {/* Left Section: Branding (Hidden on Mobile) */}
+      <section className="hidden md:flex md:w-1/2 bg-primary-container relative overflow-hidden items-center justify-center p-12">
+        {/* Decorative Background */}
+        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-secondary-container opacity-20 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[400px] h-[400px] bg-primary opacity-10 rounded-full blur-[100px]"></div>
 
-          <h1 className="text-3xl font-bold text-center text-slate-900 mb-2">
-            Create Account
+        <div className="relative z-10 max-w-lg text-center md:text-left">
+          <div className="mb-10 inline-flex items-center space-x-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+            <span className="material-symbols-outlined text-secondary-fixed">school</span>
+            <span className="text-white text-xs font-label uppercase tracking-widest">Scholar Ink</span>
+          </div>
+          <h1 className="font-headline text-white text-5xl md:text-6xl leading-tight mb-6">
+            Join Our <i>Academic Community</i>.
           </h1>
-          <p className="text-center text-slate-600 mb-8">
-            Join Tutorify and start learning or teaching
-          </p>
-
-          <p className="text-center text-slate-700 font-medium mb-6">
-            I am a...
-          </p>
-
-          <div className="space-y-3 mb-8">
-            <button
-              onClick={() => { setRole('student'); setStep('form'); }}
-              className={`w-full p-4 border-2 rounded-lg font-medium transition ${
-                role === 'student'
-                  ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
-                  : 'border-slate-300 text-slate-700 hover:border-indigo-600'
-              }`}
-            >
-              👨‍🎓 Student
-            </button>
-
-            <button
-              onClick={() => { setRole('tutor'); setStep('form'); }}
-              className={`w-full p-4 border-2 rounded-lg font-medium transition ${
-                role === 'tutor'
-                  ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
-                  : 'border-slate-300 text-slate-700 hover:border-indigo-600'
-              }`}
-            >
-              👨‍🏫 Tutor
-            </button>
-          </div>
-
-          <p className="text-center text-slate-600">
-            Already have an account?{' '}
-            <Link to="/login" className="text-indigo-600 hover:text-indigo-700 font-medium">
-              Login here
-            </Link>
+          <p className="text-on-primary-container text-lg md:text-xl font-light mb-8 leading-relaxed">
+            Create your account to post doubts, share knowledge, and grow with experts.
           </p>
         </div>
-      )}
+      </section>
 
-      {step === 'form' && (
-        <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-8">
-          <div className="flex justify-center mb-6">
-            <div className="bg-indigo-600 p-3 rounded-full">
-              <UserPlus className="w-8 h-8 text-white" />
-            </div>
+      {/* Right Section: Registration Form */}
+      <section className="flex-1 flex items-center justify-center p-6 md:p-12 lg:p-24 bg-surface">
+        <div className="w-full max-w-md">
+          {/* Mobile Logo */}
+          <div className="md:hidden flex flex-col items-center mb-10 text-center">
+            <span className="material-symbols-outlined text-primary text-4xl mb-2">school</span>
+            <h2 className="font-headline text-3xl font-bold text-on-surface">Scholar Ink</h2>
           </div>
 
-          <h1 className="text-3xl font-bold text-center text-slate-900 mb-1">
-            Create Account
-          </h1>
-          <p className="text-center text-slate-600 mb-1 font-medium capitalize">
-            {role === 'student' ? '👨‍🎓 Student Account' : '👨‍🏫 Tutor Account'}
-          </p>
-          <p className="text-center text-slate-600 text-sm mb-8 cursor-pointer" onClick={() => setStep('role')}>
-            Change role
-          </p>
+          <header className="mb-10">
+            <h2 className="font-headline text-3xl font-medium text-on-surface mb-2">Create Account</h2>
+            <p className="text-on-surface-variant font-light">Join our academic community and start your journey.</p>
+          </header>
 
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
-              <span className="text-sm">{error}</span>
-            </div>
+          {step === 'form' && (
+            <form onSubmit={handleSubmitForm} className="space-y-6">
+              {error && (
+                <div className="p-4 bg-error-container rounded-lg">
+                  <p className="text-error text-sm">{error}</p>
+                </div>
+              )}
+
+              {/* Role Selection */}
+              <div className="space-y-2">
+                <label className="block font-label text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                  Account Type
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setRole('student')}
+                    className={`px-4 py-3 rounded-xl font-medium transition-all ${
+                      role === 'student'
+                        ? 'bg-secondary text-on-secondary'
+                        : 'bg-surface-container-low text-on-surface hover:bg-surface-container'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-lg mr-1">person</span> Student
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole('faculty')}
+                    className={`px-4 py-3 rounded-xl font-medium transition-all ${
+                      role === 'faculty'
+                        ? 'bg-secondary text-on-secondary'
+                        : 'bg-surface-container-low text-on-surface hover:bg-surface-container'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-lg mr-1">school</span> Faculty
+                  </button>
+                </div>
+              </div>
+
+              {/* Full Name */}
+              <div className="space-y-2">
+                <label className="block font-label text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="John Doe"
+                  required
+                  disabled={loading}
+                  className="w-full px-4 py-3 bg-surface-container-low border-none rounded-xl text-on-surface placeholder:text-outline/50 focus:ring-2 focus:ring-secondary/20 focus:bg-surface-container-lowest transition-all outline-none disabled:opacity-50"
+                />
+              </div>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <label className="block font-label text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                  Institutional Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="name@university.edu"
+                  required
+                  disabled={loading}
+                  className="w-full px-4 py-3 bg-surface-container-low border-none rounded-xl text-on-surface placeholder:text-outline/50 focus:ring-2 focus:ring-secondary/20 focus:bg-surface-container-lowest transition-all outline-none disabled:opacity-50"
+                />
+              </div>
+
+              {/* Password */}
+              <div className="space-y-2">
+                <label className="block font-label text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    required
+                    disabled={loading}
+                    className="w-full px-4 py-3 bg-surface-container-low border-none rounded-xl text-on-surface placeholder:text-outline/50 focus:ring-2 focus:ring-secondary/20 focus:bg-surface-container-lowest transition-all outline-none disabled:opacity-50"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">
+                      {showPassword ? 'visibility_off' : 'visibility'}
+                    </span>
+                  </button>
+                </div>
+                
+                {/* Password Strength Indicator */}
+                {formData.password && (
+                  <div className="mt-2 space-y-1">
+                    <div className="flex gap-1">
+                      {[0, 1, 2, 3].map((i) => (
+                        <div
+                          key={i}
+                          className={`flex-1 h-1 rounded-full transition-colors ${
+                            i < passwordStrength ? 'bg-secondary' : 'bg-surface-container'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-xs text-on-surface-variant">
+                      {passwordStrength <= 1 && 'Weak password'}
+                      {passwordStrength === 2 && 'Fair password'}
+                      {passwordStrength === 3 && 'Good password'}
+                      {passwordStrength === 4 && 'Strong password'}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Confirm Password */}
+              <div className="space-y-2">
+                <label className="block font-label text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    required
+                    disabled={loading}
+                    className="w-full px-4 py-3 bg-surface-container-low border-none rounded-xl text-on-surface placeholder:text-outline/50 focus:ring-2 focus:ring-secondary/20 focus:bg-surface-container-lowest transition-all outline-none disabled:opacity-50"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">
+                      {showConfirmPassword ? 'visibility_off' : 'visibility'}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Terms Checkbox */}
+              <label className="flex items-center space-x-2 text-on-surface-variant text-sm cursor-pointer">
+                <input type="checkbox" required className="rounded border-outline-variant" />
+                <span>I agree to the <span className="text-secondary hover:underline">Terms of Service</span></span>
+              </label>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Creating account...' : 'Create Account'}
+              </button>
+
+              {/* Sign In Link */}
+              <div className="pt-8 border-t border-outline-variant/20 text-center">
+                <p className="text-on-surface-variant text-sm">
+                  Already have an account?{' '}
+                  <Link to="/login" className="text-secondary hover:text-on-secondary-container font-semibold transition-colors">
+                    Sign in
+                  </Link>
+                </p>
+              </div>
+            </form>
           )}
 
-          <form onSubmit={handleSubmitForm} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Full Name *
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="John Doe"
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                disabled={loading}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Email *
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                disabled={loading}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Phone
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="+91 9876543210"
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                disabled={loading}
-              />
-            </div>
-
-            {role === 'tutor' && (
-              <>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    College/University
-                  </label>
-                  <input
-                    type="text"
-                    name="college"
-                    value={formData.college}
-                    onChange={handleChange}
-                    placeholder="Enter your college"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    disabled={loading}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Branch/Stream
-                  </label>
-                  <input
-                    type="text"
-                    name="branch"
-                    value={formData.branch}
-                    onChange={handleChange}
-                    placeholder="e.g., Computer Science"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    disabled={loading}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Graduation Year
-                  </label>
-                  <input
-                    type="text"
-                    name="graduationYear"
-                    value={formData.graduationYear}
-                    onChange={handleChange}
-                    placeholder="2024"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    disabled={loading}
-                  />
-                </div>
-              </>
-            )}
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Password *
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                disabled={loading}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Confirm Password *
-              </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                disabled={loading}
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 px-4 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Creating account...' : 'Create Account'}
-            </button>
-          </form>
-
-          <p className="text-center text-slate-600 mt-6">
-            Already have an account?{' '}
-            <Link to="/login" className="text-indigo-600 hover:text-indigo-700 font-medium">
-              Login here
-            </Link>
-          </p>
+          {step === 'otp' && (
+            <OTPModal email={registeredEmail} devOtp={devOtp} onSuccess={handleOTPSuccess} />
+          )}
         </div>
-      )}
-
-      {step === 'otp' && (
-        <OTPModal email={registeredEmail} devOtp={devOtp} onSuccess={handleOTPSuccess} />
-      )}
-    </div>
+      </section>
+    </main>
   );
 }

@@ -76,9 +76,15 @@ export default function AdminRegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center bg-slate-50 font-sans px-4 py-8">
+      {/* Background Orbs */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] -right-10 w-96 h-96 bg-amber-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
+        <div className="absolute bottom-[-10%] -left-10 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
+      </div>
+
       {step === 'form' && (
-        <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-8">
+        <div className="relative z-10 w-full max-w-md bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-2xl p-8 transition-all">
           <div className="flex justify-center mb-6">
             <div className="bg-amber-600 p-3 rounded-full">
               <Shield className="w-8 h-8 text-white" />
