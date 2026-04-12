@@ -149,14 +149,15 @@ const seedData = async () => {
 };
 
 // Routes
-app.use('/api/auth', authLimiter, authRoutes);
-app.use('/api/doubts', doubtRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/analytics', analyticsRoutes);
+const apiRouter = express.Router();
+apiRouter.use('/auth', authLimiter, authRoutes);
+apiRouter.use('/doubts', doubtRoutes);
+apiRouter.use('/payments', paymentRoutes);
+apiRouter.use('/admin', adminRoutes);
+apiRouter.use('/analytics', analyticsRoutes);
 
 // Public subjects list for posting/filtering doubts
-app.get('/api/subjects', async (req, res) => {
+apiRouter.get('/subjects', async (req, res) => {
   try {
     const subjects = await Subject.find({ isActive: true }).sort({ name: 1 });
     res.json({ subjects });
@@ -166,9 +167,13 @@ app.get('/api/subjects', async (req, res) => {
 });
 
 // Health check
-app.get('/api/health', (req, res) => {
+apiRouter.get('/health', (req, res) => {
   res.json({ status: 'Backend running', timestamp: new Date() });
 });
+
+app.use('/api', apiRouter);
+app.use('/', apiRouter); // Mount on / to handle Vercel routePrefix stripping
+
 
 if (isProduction) {
   app.use(express.static(frontendDistPath));

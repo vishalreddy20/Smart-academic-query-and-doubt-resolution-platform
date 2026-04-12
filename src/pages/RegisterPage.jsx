@@ -97,7 +97,8 @@ export default function RegisterPage() {
         setStep('otp');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      console.error("Registration Error", err);
+      setError(err.response?.data?.message || err.message || 'Registration failed (Unknown error)');
     } finally {
       setLoading(false);
     }
