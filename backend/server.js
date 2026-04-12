@@ -194,8 +194,7 @@ if (process.env.NODE_ENV !== 'production' || (!process.env.VERCEL && !process.en
 
       if (requireEmailOtp) {
         console.error(message);
-        console.error('! REQUIRE_EMAIL_OTP=true, so server is exiting to prevent invalid OTP flow.');
-        process.exit(1); // Exit only locally
+        console.error('! REQUIRE_EMAIL_OTP=true, registration will throw 500 errors until email is properly configured.');
       }
 
       console.warn(message);
