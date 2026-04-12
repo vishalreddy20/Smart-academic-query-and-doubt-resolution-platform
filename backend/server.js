@@ -197,19 +197,26 @@ app.use(errorHandler);
 setInterval(deleteExpiredOTPs, 60 * 60 * 1000);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✓ Server running on port ${PORT}`);
-  console.log(`✓ Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
-  if (!isEmailConfigured()) {
-    const message = '! Email service is not configured. Set EMAIL_SERVICE, EMAIL_HOST, EMAIL_PORT, EMAIL_SECURE, EMAIL_USER, EMAIL_PASSWORD, and EMAIL_FROM in backend/.env.';
 
-    if (requireEmailOtp) {
-      console.error(message);
-      console.error('! REQUIRE_EMAIL_OTP=true, so server is exiting to prevent invalid OTP flow.');
-      process.exit(1);
+// Export for Vercel Serverless Functions
+export default app;
+
+// Only listen if not in a serverless environment
+if (process.env.NODE_ENV !== 'production' || (!process.env.VERCEL && !process.env.VERCEL_ENV)) {
+  app.listen(PORT, () => {
+    console.log(`✓ Server running on port ${PORT}`);
+    console.log(`✓ Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
+    if (!isEmailConfigured()) {
+      const message = '! Email service is not configured. Set EMAIL_SERVICE, EMAIL_HOST, EMAIL_PORT, EMAIL_SECURE, EMAIL_USER, EMAIL_PASSWORD, and EMAIL_FROM in backend/.env.';
+
+      if (requireEmailOtp) {
+        console.error(message);
+        console.error('! REQUIRE_EMAIL_OTP=true, so server is exiting to prevent invalid OTP flow.');
+        process.exit(1); // Exit only locally
+      }
+
+      console.warn(message);
+      console.warn('! REQUIRE_EMAIL_OTP=false, so backend continues with OTP endpoints but they will return configuration errors.');
     }
-
-    console.warn(message);
-    console.warn('! REQUIRE_EMAIL_OTP=false, so backend continues with OTP endpoints but they will return configuration errors.');
-  }
-});
+  });
+}
