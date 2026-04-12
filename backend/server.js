@@ -37,26 +37,9 @@ const app = express();
 // Middleware
 app.use(helmet());
 app.use(morgan('combined'));
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  'http://localhost:5173',
-  'http://127.0.0.1:5173',
-].filter(Boolean);
-
 app.use(
   cors({
-    origin(origin, callback) {
-      if (!origin) return callback(null, true);
-
-      const isExplicitlyAllowed = allowedOrigins.includes(origin);
-      const isLocalDevOrigin = /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin);
-
-      if (isExplicitlyAllowed || isLocalDevOrigin) {
-        return callback(null, true);
-      }
-
-      return callback(new Error('CORS not allowed for this origin'));
-    },
+    origin: ['http://localhost:5173', 'https://smart-academic-query-and-doubt-reso.vercel.app'],
     credentials: true,
   })
 );
