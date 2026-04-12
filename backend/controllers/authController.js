@@ -6,6 +6,8 @@ import { isEmailConfigured, sendWelcomeEmail, sendPasswordResetEmail } from '../
 import crypto from 'crypto';
 import asyncHandler from 'express-async-handler';
 
+const normalizeEmail = (email = '') => email.trim().toLowerCase();
+
 const resolveFrontendUrl = (req) => {
   const requestOrigin = req.get('origin');
 
@@ -19,6 +21,13 @@ const resolveFrontendUrl = (req) => {
 // Register User (Student or Tutor)
 export const register = asyncHandler(async (req, res) => {
   const { name, email, password, confirmPassword, role, phone, college, branch, graduationYear, expertise } = req.body;
+  const normalizedEmail = normalizeEmail(email);
+
+  if (!isEmailConfigured()) {
+    return res.status(503).json({
+      message: 'Email OTP service is not configured. Set EMAIL_SERVICE, EMAIL_HOST, EMAIL_PORT, EMAIL_SECURE, EMAIL_USER, EMAIL_PASSWORD, and EMAIL_FROM in backend/.env and restart backend.',
+    });
+  }
 
   // Validation
   if (!name || !email || !password || !confirmPassword) {
@@ -34,15 +43,27 @@ export const register = asyncHandler(async (req, res) => {
   }
 
   // Check if user exists
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({ email: normalizedEmail });
   if (existingUser) {
-    return res.status(400).json({ message: 'Email already registered' });
+    if (existingUser.isVerified) {
+      return res.status(400).json({ message: 'Email already registered' });
+    }
+
+    const otpResult = await resendOTP(normalizedEmail, 'signup');
+
+    return res.status(200).json({
+      message: 'Email already registered but not verified. A new OTP has been sent.',
+      userId: existingUser._id,
+      email: existingUser.email,
+      requiresOTPVerification: true,
+      ...(otpResult.deliveryMethod ? { deliveryMethod: otpResult.deliveryMethod } : {}),
+    });
   }
 
   // Create user
   const user = await User.create({
     name,
-    email,
+    email: normalizedEmail,
     password,
     role: role || 'student',
     phone: phone || '',
@@ -54,7 +75,7 @@ export const register = asyncHandler(async (req, res) => {
 
   // Generate and send OTP
   try {
-    const otpResult = await createAndSendOTP(email, 'signup');
+    const otpResult = await createAndSendOTP(normalizedEmail, 'signup');
     
     res.status(201).json({
       message: 'User registered successfully. Please verify your email with OTP.',
@@ -62,11 +83,10 @@ export const register = asyncHandler(async (req, res) => {
       email: user.email,
       requiresOTPVerification: true,
       ...(otpResult.deliveryMethod ? { deliveryMethod: otpResult.deliveryMethod } : {}),
-      ...(otpResult.devOtp ? { devOtp: otpResult.devOtp } : {}),
     });
   } catch (error) {
     await User.deleteOne({ _id: user._id });
-    return res.status(500).json({ message: 'Failed to send OTP email' });
+    return res.status(500).json({ message: error.message || 'Failed to send OTP email' });
   }
 });
 
@@ -121,16 +141,20 @@ export const registerAdmin = asyncHandler(async (req, res) => {
 // Verify OTP
 export const verifyOTPCode = asyncHandler(async (req, res) => {
   const { email, otp } = req.body;
+  const normalizedEmail = normalizeEmail(email);
 
   if (!email || !otp) {
     return res.status(400).json({ message: 'Email and OTP are required' });
   }
 
   try {
-    await verifyOTP(email, otp);
+    await verifyOTP(normalizedEmail, otp);
 
     // Update user as verified
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: normalizedEmail });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     user.isVerified = true;
     await user.save();
 
@@ -139,7 +163,7 @@ export const verifyOTPCode = asyncHandler(async (req, res) => {
 
     // Send welcome email
     try {
-      await sendWelcomeEmail(email, user.name);
+      await sendWelcomeEmail(normalizedEmail, user.name);
     } catch (error) {
       console.error('Error sending welcome email:', error);
     }
@@ -153,6 +177,12 @@ export const verifyOTPCode = asyncHandler(async (req, res) => {
         email: user.email,
         role: user.role,
         isVerified: user.isVerified,
+        isApproved: user.isApproved,
+        isPremiumActive: user.isPremiumActive,
+        rating: user.rating,
+        totalDoubtsResolved: user.totalDoubtsResolved,
+        totalEarnings: user.totalEarnings,
+        totalSolved: user.totalDoubtsResolved,
       },
     });
   } catch (error) {
@@ -163,19 +193,34 @@ export const verifyOTPCode = asyncHandler(async (req, res) => {
 // Resend OTP
 export const resendOTPCode = asyncHandler(async (req, res) => {
   const { email } = req.body;
+  const normalizedEmail = normalizeEmail(email);
+
+  if (!isEmailConfigured()) {
+    return res.status(503).json({
+      message: 'Email OTP service is not configured. Set EMAIL_SERVICE, EMAIL_HOST, EMAIL_PORT, EMAIL_SECURE, EMAIL_USER, EMAIL_PASSWORD, and EMAIL_FROM in backend/.env and restart backend.',
+    });
+  }
 
   if (!email) {
     return res.status(400).json({ message: 'Email is required' });
   }
 
+  const user = await User.findOne({ email: normalizedEmail });
+  if (!user) {
+    return res.status(404).json({ message: 'No account found for this email' });
+  }
+
+  if (user.isVerified) {
+    return res.status(400).json({ message: 'This email is already verified. Please log in.' });
+  }
+
   try {
-    const otpResult = await resendOTP(email, 'signup');
+    const otpResult = await resendOTP(normalizedEmail, 'signup');
 
     res.json({
       message: 'OTP resent successfully',
-      email,
+      email: normalizedEmail,
       ...(otpResult.deliveryMethod ? { deliveryMethod: otpResult.deliveryMethod } : {}),
-      ...(otpResult.devOtp ? { devOtp: otpResult.devOtp } : {}),
     });
   } catch (error) {
     return res.status(400).json({ message: error.message });
@@ -185,12 +230,13 @@ export const resendOTPCode = asyncHandler(async (req, res) => {
 // Login
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+  const normalizedEmail = normalizeEmail(email);
 
   if (!email || !password) {
     return res.status(400).json({ message: 'Please provide email and password' });
   }
 
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ email: normalizedEmail }).select('+password');
   if (!user) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
@@ -199,6 +245,7 @@ export const login = asyncHandler(async (req, res) => {
     return res.status(403).json({ 
       message: 'Please verify your email first',
       userId: user._id,
+      email: user.email,
       requiresOTPVerification: true,
     });
   }
@@ -229,7 +276,12 @@ export const login = asyncHandler(async (req, res) => {
       role: user.role,
       profilePic: user.profilePic,
       isVerified: user.isVerified,
+      isApproved: user.isApproved,
       isPremiumActive: user.isPremiumActive,
+      rating: user.rating,
+      totalDoubtsResolved: user.totalDoubtsResolved,
+      totalEarnings: user.totalEarnings,
+      totalSolved: user.totalDoubtsResolved,
     },
   });
 });

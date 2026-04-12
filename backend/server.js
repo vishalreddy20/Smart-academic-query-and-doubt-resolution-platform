@@ -4,6 +4,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const mongoSanitize = require('express-mongo-sanitize');
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { isEmailConfigured } from './utils/emailService.js';
@@ -17,6 +21,7 @@ import authRoutes from './routes/authRoutes.js';
 import doubtRoutes from './routes/doubtRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import analyticsRoutes from './routes/analyticsRoutes.js';
 
 // Load env variables
 dotenv.config();
@@ -25,6 +30,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const frontendDistPath = path.resolve(__dirname, '../dist');
 const isProduction = process.env.NODE_ENV === 'production';
+const requireEmailOtp = `${process.env.REQUIRE_EMAIL_OTP ?? 'true'}`.toLowerCase() === 'true';
 
 const app = express();
 
@@ -57,6 +63,28 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// MongoDB injection sanitization
+app.use(mongoSanitize());
+
+// Global Rate Limiter — 100 req / 15 min per IP
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many requests from this IP, please try again after 15 minutes.' },
+});
+app.use('/api/', globalLimiter);
+
+// Strict Auth Rate Limiter — 10 req / 15 min per IP
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many authentication attempts, please try again later.' },
+});
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
@@ -87,32 +115,45 @@ const seedData = async () => {
       console.log('✓ Admin user created (email: admin@tutorify.com, password: Admin@123)');
     }
 
-    // Seed subjects if empty
-    const subjectsCount = await Subject.countDocuments();
-    if (subjectsCount === 0) {
-      const subjects = [
-        { name: 'Mathematics', branch: 'General', description: 'All math topics' },
-        { name: 'Physics', branch: 'General', description: 'Physics concepts' },
-        { name: 'Chemistry', branch: 'General', description: 'Chemistry topics' },
-        { name: 'Data Structures', branch: 'Computer Science', description: 'DSA concepts' },
-        { name: 'Web Development', branch: 'Computer Science', description: 'Web dev basics' },
-        { name: 'Mechanical Engineering', branch: 'Engineering', description: 'Mech engineering' },
-        { name: 'Electrical Circuits', branch: 'Engineering', description: 'Circuit theory' },
-        { name: 'English', branch: 'General', description: 'English language' },
-      ];
-      await Subject.insertMany(subjects);
-      console.log('✓ Subjects seeded');
+    // Enforce Indian BTech CSE subject taxonomy
+    const cseSubjects = [
+      { name: 'Data Structures and Algorithms', branch: 'CSE', description: 'Arrays, linked lists, trees, graphs, sorting, searching, and complexity analysis' },
+      { name: 'Object Oriented Programming', branch: 'CSE', description: 'Java/C++ OOP concepts, classes, inheritance, polymorphism, and design basics' },
+      { name: 'Database Management Systems', branch: 'CSE', description: 'ER modeling, normalization, SQL, transactions, indexing, and query optimization' },
+      { name: 'Operating Systems', branch: 'CSE', description: 'Processes, threads, scheduling, synchronization, deadlocks, memory, and file systems' },
+      { name: 'Computer Networks', branch: 'CSE', description: 'OSI/TCP-IP, routing, switching, transport, application protocols, and network security' },
+      { name: 'Theory of Computation', branch: 'CSE', description: 'Automata, regular languages, CFG, PDA, Turing machines, and computability' },
+      { name: 'Compiler Design', branch: 'CSE', description: 'Lexical analysis, parsing, semantic analysis, IR, optimization, and code generation' },
+      { name: 'Software Engineering', branch: 'CSE', description: 'SDLC models, requirements, UML, testing, maintenance, and project management' },
+      { name: 'Machine Learning', branch: 'CSE', description: 'Supervised/unsupervised learning, model evaluation, and practical ML workflows' },
+      { name: 'Cloud Computing', branch: 'CSE', description: 'Virtualization, containers, cloud services, deployment architecture, and scaling' },
+    ];
+
+    for (const subject of cseSubjects) {
+      await Subject.updateOne(
+        { name: subject.name },
+        { $set: { ...subject, isActive: true } },
+        { upsert: true }
+      );
     }
+
+    await Subject.updateMany(
+      { name: { $nin: cseSubjects.map((subject) => subject.name) } },
+      { $set: { isActive: false } }
+    );
+
+    console.log('✓ Indian BTech CSE subjects synchronized');
   } catch (error) {
     console.error('Seeding error:', error);
   }
 };
 
 // Routes
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/doubts', doubtRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Public subjects list for posting/filtering doubts
 app.get('/api/subjects', async (req, res) => {
@@ -155,6 +196,15 @@ app.listen(PORT, () => {
   console.log(`✓ Server running on port ${PORT}`);
   console.log(`✓ Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
   if (!isEmailConfigured()) {
-    console.warn('! Email service is not configured. Gmail App Password or SMTP credentials are required for real email delivery.');
+    const message = '! Email service is not configured. Set EMAIL_SERVICE, EMAIL_HOST, EMAIL_PORT, EMAIL_SECURE, EMAIL_USER, EMAIL_PASSWORD, and EMAIL_FROM in backend/.env.';
+
+    if (requireEmailOtp) {
+      console.error(message);
+      console.error('! REQUIRE_EMAIL_OTP=true, so server is exiting to prevent invalid OTP flow.');
+      process.exit(1);
+    }
+
+    console.warn(message);
+    console.warn('! REQUIRE_EMAIL_OTP=false, so backend continues with OTP endpoints but they will return configuration errors.');
   }
 });

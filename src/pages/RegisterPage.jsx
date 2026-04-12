@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { registerUser } from '../services/api';
+import { registerUser, registerAdmin } from '../services/api';
 import OTPModal from '../components/OTPModal';
 
 export default function RegisterPage() {
   const [step, setStep] = useState('form'); // 'form', 'otp'
   const [role, setRole] = useState('student');
-  const [devOtp, setDevOtp] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -15,6 +14,7 @@ export default function RegisterPage() {
     email: '',
     password: '',
     confirmPassword: '',
+    adminCode: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -42,6 +42,10 @@ export default function RegisterPage() {
       setError('Please fill in all required fields');
       return false;
     }
+    if (role === 'admin' && !formData.adminCode) {
+      setError('Admin secret code is required for admin registration');
+      return false;
+    }
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return false;
@@ -64,17 +68,34 @@ export default function RegisterPage() {
       setLoading(true);
       setError('');
 
-      const { data } = await registerUser({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        role,
-      });
+      if (role === 'admin') {
+        const { data } = await registerAdmin({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+          adminCode: formData.adminCode,
+        });
 
-      setUserId(data.userId);
-      setRegisteredEmail(data.email);
-      setDevOtp(data.devOtp || '');
-      setStep('otp');
+        if (data?.token && data?.user) {
+          navigate('/login');
+          return;
+        }
+      } else {
+        const apiRole = role === 'faculty' ? 'tutor' : role;
+
+        const { data } = await registerUser({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+          role: apiRole,
+        });
+
+        setUserId(data.userId);
+        setRegisteredEmail(data.email);
+        setStep('otp');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     } finally {
@@ -82,7 +103,7 @@ export default function RegisterPage() {
     }
   };
 
-  const handleOTPSuccess = () => {
+  const handleOTPSuccess = (verifyData) => {
     navigate('/login');
   };
 
@@ -97,7 +118,7 @@ export default function RegisterPage() {
         <div className="relative z-10 max-w-lg text-center md:text-left">
           <div className="mb-10 inline-flex items-center space-x-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
             <span className="material-symbols-outlined text-secondary-fixed">school</span>
-            <span className="text-white text-xs font-label uppercase tracking-widest">Scholar Ink</span>
+            <span className="text-white text-xs font-label uppercase tracking-widest">Tutorify</span>
           </div>
           <h1 className="font-headline text-white text-5xl md:text-6xl leading-tight mb-6">
             Join Our <i>Academic Community</i>.
@@ -114,7 +135,7 @@ export default function RegisterPage() {
           {/* Mobile Logo */}
           <div className="md:hidden flex flex-col items-center mb-10 text-center">
             <span className="material-symbols-outlined text-primary text-4xl mb-2">school</span>
-            <h2 className="font-headline text-3xl font-bold text-on-surface">Scholar Ink</h2>
+            <h2 className="font-headline text-3xl font-bold text-on-surface">Tutorify</h2>
           </div>
 
           <header className="mb-10">
@@ -135,7 +156,7 @@ export default function RegisterPage() {
                 <label className="block font-label text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
                   Account Type
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   <button
                     type="button"
                     onClick={() => setRole('student')}
@@ -158,8 +179,39 @@ export default function RegisterPage() {
                   >
                     <span className="material-symbols-outlined text-lg mr-1">school</span> Faculty
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole('admin')}
+                    className={`px-4 py-3 rounded-xl font-medium transition-all ${
+                      role === 'admin'
+                        ? 'bg-secondary text-on-secondary'
+                        : 'bg-surface-container-low text-on-surface hover:bg-surface-container'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-lg mr-1">shield</span> Admin
+                  </button>
                 </div>
               </div>
+
+              {/* Admin Secret Code */}
+              {role === 'admin' && (
+                <div className="space-y-2">
+                  <label className="block font-label text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                    Admin Secret Code
+                  </label>
+                  <input
+                    type="password"
+                    name="adminCode"
+                    value={formData.adminCode}
+                    onChange={handleChange}
+                    placeholder="Enter admin code"
+                    required
+                    disabled={loading}
+                    className="w-full px-4 py-3 bg-surface-container-low border-none rounded-xl text-on-surface placeholder:text-outline/50 focus:ring-2 focus:ring-secondary/20 focus:bg-surface-container-lowest transition-all outline-none disabled:opacity-50"
+                  />
+                  <p className="text-xs text-on-surface-variant">Only platform owner-provided code is valid.</p>
+                </div>
+              )}
 
               {/* Full Name */}
               <div className="space-y-2">
@@ -285,7 +337,7 @@ export default function RegisterPage() {
                 disabled={loading}
                 className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Creating account...' : 'Create Account'}
+                {loading ? 'Creating account...' : role === 'admin' ? 'Create Admin Account' : 'Create Account'}
               </button>
 
               {/* Sign In Link */}
@@ -301,7 +353,7 @@ export default function RegisterPage() {
           )}
 
           {step === 'otp' && (
-            <OTPModal email={registeredEmail} devOtp={devOtp} onSuccess={handleOTPSuccess} />
+            <OTPModal email={registeredEmail} onSuccess={handleOTPSuccess} />
           )}
         </div>
       </section>

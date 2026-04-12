@@ -26,13 +26,22 @@ export const resetPassword = (data) => API.post('/auth/reset-password', data);
 export const postDoubt = (data) => API.post('/doubts', data);
 export const getMyDoubts = () => API.get('/doubts/my/all');
 export const getOpenDoubts = () => API.get('/doubts/open/all');
+export const getClaimedDoubts = () => API.get('/doubts/claimed/all');
+export const getResolvedDoubts = () => API.get('/doubts/resolved/all'); // tutor resolved
+export const getKnowledgeBase = (q, subject, difficulty) => {
+  const params = new URLSearchParams();
+  if (q) params.append('q', q);
+  if (subject) params.append('subject', subject);
+  if (difficulty) params.append('difficulty', difficulty);
+  return API.get(`/doubts/knowledge?${params.toString()}`);
+};
 export const getDoubtDetail = (id) => API.get(`/doubts/${id}`);
 export const claimDoubt = (id) => API.put(`/doubts/${id}/claim`);
 export const submitSolution = (id, data) => API.put(`/doubts/${id}/submit`, data);
 export const answerDoubt = (id, data) => submitSolution(id, { solution: data?.answer || data?.solution || '' });
 export const rateSolution = (id, data) => API.put(`/doubts/${id}/rate`, data);
-export const searchDoubts = (query) => API.get(`/doubts/search?q=${query}`);
-export const getResolvedDoubts = (search = '') => API.get(`/doubts/search?q=${encodeURIComponent(search)}`);
+export const reopenDoubt = (id, data) => API.post(`/doubts/${id}/reopen`, data);
+export const searchDoubts = (query) => API.get(`/doubts/search?q=${encodeURIComponent(query)}`);
 export const deleteDoubt = (id) => API.delete(`/doubts/${id}`);
 
 // ==================== PAYMENTS ====================
@@ -56,4 +65,8 @@ export const reactivateUser = (id) => API.put(`/admin/users/${id}/reactivate`);
 export const deleteUserAdmin = (id) => API.delete(`/admin/users/${id}`);
 export const createSubject = (data) => API.post('/admin/subjects', data);
 export const getAllSubjects = () => API.get('/admin/subjects');
+export const updateSubject = (id, data) => API.put(`/admin/subjects/${id}`, data);
 export const deleteSubject = (id) => API.delete(`/admin/subjects/${id}`);
+export const getPendingTutors = () => API.get('/admin/tutors/pending');
+export const getRecentDoubtsData = () => API.get('/admin/doubts/recent');
+export const getRecentPaymentsData = () => API.get('/admin/payments/recent');

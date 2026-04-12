@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Dashboard | The Academic Curator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-background": "#191c1e",
+                "surface": "#f7f9fb",
+                "on-tertiary": "#ffffff",
+                "surface-container-high": "#e6e8ea",
+                "secondary": "#006a61",
+                "tertiary": "#000000",
+                "secondary-fixed": "#89f5e7",
+                "primary": "#000000",
+                "on-surface-variant": "#45464d",
+                "primary-fixed-dim": "#bec6e0",
+                "on-secondary-container": "#006f66",
+                "surface-container-low": "#f2f4f6",
+                "on-tertiary-fixed-variant": "#653e00",
+                "secondary-container": "#86f2e4",
+                "tertiary-fixed-dim": "#ffb95f",
+                "on-primary-fixed": "#131b2e",
+                "surface-tint": "#565e74",
+                "background": "#f7f9fb",
+                "on-secondary-fixed-variant": "#005049",
+                "tertiary-container": "#2a1700",
+                "outline-variant": "#c6c6cd",
+                "inverse-on-surface": "#eff1f3",
+                "on-error": "#ffffff",
+                "on-tertiary-fixed": "#2a1700",
+                "on-primary-container": "#7c839b",
+                "on-primary-fixed-variant": "#3f465c",
+                "tertiary-fixed": "#ffddb8",
+                "on-secondary": "#ffffff",
+                "primary-container": "#131b2e",
+                "inverse-surface": "#2d3133",
+                "inverse-primary": "#bec6e0",
+                "error-container": "#ffdad6",
+                "surface-dim": "#d8dadc",
+                "on-tertiary-container": "#b87500",
+                "surface-container": "#eceef0",
+                "surface-bright": "#f7f9fb",
+                "surface-container-lowest": "#ffffff",
+                "error": "#ba1a1a",
+                "outline": "#76777d",
+                "on-surface": "#191c1e",
+                "on-secondary-fixed": "#00201d",
+                "on-error-container": "#93000a",
+                "secondary-fixed-dim": "#6bd8cb"
+              },
+              fontFamily: {
+                "headline": ["Newsreader"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- SideNavBar -->
+<aside class="h-screen w-72 fixed left-0 border-r-0 bg-[#f2f4f6] dark:bg-[#131b2e] flex flex-col p-6 gap-8 z-40 hidden md:flex">
+<div class="flex flex-col gap-1">
+<span class="font-['Newsreader'] text-xl font-bold text-[#0F172A] dark:text-white">The Curator</span>
+<span class="text-xs uppercase tracking-widest text-on-primary-container">Academic Intelligence</span>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="bg-white dark:bg-[#0F172A] text-[#0D9488] font-bold rounded-lg shadow-sm flex items-center gap-3 p-3 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-['Inter'] text-sm antialiased">My Queries</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-white/5 flex items-center gap-3 p-3 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="reorder">reorder</span>
+<span class="font-['Inter'] text-sm antialiased">Faculty Queue</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-white/5 flex items-center gap-3 p-3 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-['Inter'] text-sm antialiased">Performance</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-white/5 flex items-center gap-3 p-3 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="font-['Inter'] text-sm antialiased">Library</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-white/5 flex items-center gap-3 p-3 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="font-['Inter'] text-sm antialiased">Direct Messages</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-2">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-lg font-medium shadow-lg hover:scale-105 transition-all">
+                Submit Inquiry
+            </button>
+<div class="pt-6 border-t border-outline-variant/20 flex flex-col gap-2">
+<a class="text-slate-600 dark:text-slate-400 flex items-center gap-3 p-2 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-['Inter'] text-sm antialiased">Support</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 flex items-center gap-3 p-2 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-['Inter'] text-sm antialiased">Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-30 bg-[#f7f9fb]/80 dark:bg-[#0F172A]/80 backdrop-blur-xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)]">
+<div class="flex justify-between items-center px-6 md:px-10 py-4 max-w-[1440px] mx-auto md:ml-72">
+<div class="flex items-center gap-8">
+<h1 class="text-2xl font-serif italic text-[#0F172A] dark:text-white leading-none">The Academic Curator</h1>
+<nav class="hidden lg:flex items-center gap-6 font-['Newsreader'] tracking-tight">
+<a class="text-[#0D9488] font-semibold border-b-2 border-[#0D9488] pb-1" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#0D9488] transition-colors duration-300" href="#">Archive</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#0D9488] transition-colors duration-300" href="#">Resources</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-primary-container material-symbols-outlined text-sm">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-secondary/20 w-64" placeholder="Search insights..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:text-secondary transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-secondary transition-all">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-2 border border-outline-variant/30">
+<img alt="User profile avatar" class="h-full w-full object-cover" data-alt="close-up portrait of a professional woman with a friendly expression in academic setting with soft library lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAhFufbdMpjmMuYVpHSKl6BrKoMk2PbENW6kaGoRWVHEhMY6HEQRlJpM3SYYc2BKvTrWHw1GLd73URXYVnDhbx8uqCv61gh0hlPeEp6ws8Cjc2uCy91ThutjrmSCVSe-v3mlUqvcvYswFQVbmEV9IesCaS4xefkWsFzv97MGW3RwDvS-fa7GHmRKzrAQNVnUbuvOZgOENMo6htOERxDGHdT_4cu5FeIj5OYP1so9SvYLIs5agjMCUDuiCLXMnXjffUVmc5Wes78_A"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-12 px-6 md:px-10 max-w-[1440px] mx-auto md:ml-72 min-h-screen">
+<!-- Hero Section / Header -->
+<section class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<span class="font-label text-[0.7rem] uppercase tracking-[0.2em] text-on-secondary-container font-bold mb-2 block">Student Workspace</span>
+<h2 class="text-4xl md:text-5xl font-serif text-primary leading-tight max-w-2xl">
+                    Curating your academic journey with <span class="italic text-secondary">precision.</span>
+</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-6 py-3.5 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg font-medium shadow-xl hover:scale-[1.02] active:opacity-80 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                    Post New Doubt
+                </button>
+</div>
+</section>
+<!-- Stats Bento Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.02)] flex flex-col gap-1 border-b-4 border-secondary/20">
+<span class="text-label-md text-on-surface-variant font-medium uppercase tracking-wider text-[0.7rem]">Total Doubts</span>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-serif font-bold text-primary">42</span>
+<span class="text-xs text-secondary font-semibold">+3 this week</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.02)] flex flex-col gap-1">
+<span class="text-label-md text-on-surface-variant font-medium uppercase tracking-wider text-[0.7rem]">Open</span>
+<span class="text-4xl font-serif font-bold text-on-secondary-container">08</span>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.02)] flex flex-col gap-1">
+<span class="text-label-md text-on-surface-variant font-medium uppercase tracking-wider text-[0.7rem]">In Progress</span>
+<span class="text-4xl font-serif font-bold text-on-primary-container">12</span>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.02)] flex flex-col gap-1">
+<span class="text-label-md text-on-surface-variant font-medium uppercase tracking-wider text-[0.7rem]">Resolved</span>
+<span class="text-4xl font-serif font-bold text-slate-400">22</span>
+</div>
+</section>
+<!-- Main Query Section -->
+<section class="flex flex-col gap-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-1 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+<button class="px-5 py-2 rounded-full bg-secondary text-white text-sm font-medium transition-all">All Queries</button>
+<button class="px-5 py-2 rounded-full hover:bg-surface-container-high text-on-surface-variant text-sm font-medium transition-all">Open</button>
+<button class="px-5 py-2 rounded-full hover:bg-surface-container-high text-on-surface-variant text-sm font-medium transition-all">Active</button>
+<button class="px-5 py-2 rounded-full hover:bg-surface-container-high text-on-surface-variant text-sm font-medium transition-all">Resolved</button>
+</div>
+<div class="relative w-full md:w-80">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant material-symbols-outlined text-base">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 text-sm focus:ring-1 focus:ring-secondary/30 transition-all" placeholder="Filter your doubts..." type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Doubt Card 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0px_20px_40px_rgba(15,23,42,0.04)] hover:shadow-[0px_20px_40px_rgba(15,23,42,0.08)] transition-all group border border-transparent hover:border-secondary/10">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-md text-[0.65rem] font-bold uppercase tracking-widest">Open</span>
+<span class="text-on-surface-variant text-xs font-medium">2 hours ago</span>
+</div>
+<h3 class="text-xl font-serif font-bold text-primary mb-3 leading-tight group-hover:text-secondary transition-colors">Complexities of Quantum Entanglement in Macroscopic Systems</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-2">I am seeking a deeper understanding of how decoherence affects the stability of entanglement when dealing with multi-particle systems...</p>
+<div class="flex items-center justify-between pt-6 border-t border-surface-container">
+<div class="flex -space-x-2">
+<img alt="Faculty member" class="w-7 h-7 rounded-full border-2 border-white object-cover" data-alt="portrait of an academic male professor with glasses in a formal suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlUhkEvG0-Xxsj7-neYqv6fk3ndWOf3CTh16E9eS_iy6C_8XwHUnz-t0Ukdd7G2cg0QhAetlHw4DuWL4uazpDn2cW-rgr81yC4h8QE-yULkoz4iV-HAIVQACO9HSE4Dr-EQx5OsUsL9Zb2FRP5mB9-PAZgV2bD2b7rbwCFKc_brGHXd0HaU9ZsmYpuBZflqxMPwzIWEcXrwHTdufm9OiuQlhtqF9Aj7LMuW-coD6rYAvcDVoMCwsVvWsoAU0MntiRjT6eQCPIinVM"/>
+<div class="w-7 h-7 rounded-full border-2 border-white bg-surface-container-high flex items-center justify-center text-[10px] font-bold text-on-surface-variant">+2</div>
+</div>
+<button class="text-secondary text-sm font-bold flex items-center gap-1 group/btn">
+                            View Thread 
+                            <span class="material-symbols-outlined text-base group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Doubt Card 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0px_20px_40px_rgba(15,23,42,0.04)] hover:shadow-[0px_20px_40px_rgba(15,23,42,0.08)] transition-all group border border-transparent hover:border-secondary/10">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-primary-container text-primary-fixed-dim px-3 py-1 rounded-md text-[0.65rem] font-bold uppercase tracking-widest">Claimed</span>
+<span class="text-on-surface-variant text-xs font-medium">Yesterday, 4:15 PM</span>
+</div>
+<h3 class="text-xl font-serif font-bold text-primary mb-3 leading-tight group-hover:text-secondary transition-colors">Historical Revisionism in post-WWII European Literature</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-2">How do contemporary French novelists navigate the blurred lines between historical record and artistic license when depicting the resistance...</p>
+<div class="flex items-center justify-between pt-6 border-t border-surface-container">
+<div class="flex items-center gap-2">
+<img alt="Faculty member" class="w-7 h-7 rounded-full object-cover" data-alt="professional woman academic with glasses and a thoughtful expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGPlatwrSjXBtr7dYtqaUYnP7hmQm0JM308XBiYpj2NEGKkc2MNtsXPRJ_N-GsOwJbPCMV492y5zzGWdGSDBpsX2YmMMQqKEojEqtuH_cyjQOyt4f_2LvhcKSiPRsPAIUwWCn4avYoYz-Fl5W7glGg-mR3mTA5wzC5XrfjZUxEBIWhHahUcEZSzqs8TaKsjRZ7e0FHLN-qiadW-xTwqGvteP_tTr0Tnw6vfEFDy5N7xFDxuLyMl-49gPzCRww4yL2wDM2ckKdoGnI"/>
+<span class="text-xs font-medium text-on-surface-variant">Dr. Aris Thorne is reviewing</span>
+</div>
+<button class="text-secondary text-sm font-bold flex items-center gap-1 group/btn">
+                            View Thread 
+                            <span class="material-symbols-outlined text-base group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Doubt Card 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0px_20px_40px_rgba(15,23,42,0.04)] hover:shadow-[0px_20px_40px_rgba(15,23,42,0.08)] transition-all group border border-transparent hover:border-secondary/10">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-md text-[0.65rem] font-bold uppercase tracking-widest">Resolved</span>
+<span class="text-on-surface-variant text-xs font-medium">Oct 12, 2023</span>
+</div>
+<h3 class="text-xl font-serif font-bold text-primary mb-3 leading-tight group-hover:text-secondary transition-colors">Statistical Significance in Small Sample Biological Studies</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-2">Clarification on why p-values might be misleading in longitudinal studies where the participant pool is limited to under 20 subjects...</p>
+<div class="flex items-center justify-between pt-6 border-t border-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-xs font-medium text-on-surface-variant">Solution accepted</span>
+</div>
+<button class="text-secondary text-sm font-bold flex items-center gap-1 group/btn">
+                            Read Solution 
+                            <span class="material-symbols-outlined text-base group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Bento Style Feature/Callout -->
+<div class="lg:row-span-1 bg-gradient-to-br from-primary to-primary-container p-8 rounded-xl shadow-xl flex flex-col justify-between text-white relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<div>
+<h3 class="text-2xl font-serif font-bold mb-4">Elevate your Inquiry.</h3>
+<p class="text-on-primary-container text-sm leading-relaxed max-w-xs">Our AI-driven pre-analysis helps faculty understand your doubt faster, giving you premium response times.</p>
+</div>
+<div class="mt-8">
+<a class="inline-flex items-center gap-2 text-secondary-fixed font-bold text-sm hover:underline" href="#">
+                            Explore Advanced Inquiry Tools
+                            <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Secondary Content: Recommended Resources -->
+<section class="mt-16">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-2xl font-serif font-bold text-primary">Curated for your Profile</h2>
+<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="#">View Library</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<div class="flex flex-col gap-3 group cursor-pointer">
+<div class="aspect-[3/4] rounded-lg overflow-hidden bg-surface-container shadow-md group-hover:-translate-y-1 transition-all">
+<img alt="Book cover" class="w-full h-full object-cover" data-alt="minimalist book cover design with elegant typography on textured off-white paper background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1mDGcESvfb3u4QoVadsFhzmmCK3cvicj0kI_Ry4TajQXaNEJdy1UHB3HJ3b8ASx9ueivDGxCKIe895nV5WSXui2D17sId3LogN8Oat_pUh6XCDfwwi62aP0_X9hRa0lxtNCu-GeJruCalezvM9ZjaLfjTI3mgSPOwLBJMa17PMhAfQ5gbon5LdhKccNYx-wLMmBAxyaCbslK2pyYXh9yA2MpiWVMfPcwViFaa143SxM0qrgpXvMbQfsnmbIlBTIYdUfLOhOKyz30"/>
+</div>
+<span class="text-sm font-bold text-primary line-clamp-1">Epistemology in Modern Science</span>
+<span class="text-[0.65rem] text-on-surface-variant font-medium">FACULTY RECOMMENDATION</span>
+</div>
+<div class="flex flex-col gap-3 group cursor-pointer">
+<div class="aspect-[3/4] rounded-lg overflow-hidden bg-surface-container shadow-md group-hover:-translate-y-1 transition-all">
+<img alt="Research paper" class="w-full h-full object-cover" data-alt="close-up of an open academic journal with architectural diagrams and clean serif text" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIkLK8-Rh1yFRc5HcHkcJxGXHn0KA6VIpsqgjNG7eXQZvZJ97bUu0ec5KTgPyUp-Uc-_E_ijBMig0QMgU_QAdIitnE9Xau3DEAEs5tM51bPYfS_R-GmMmyO_nH4OiT9I06JpEov6WxiGKLF77wR5dDLVLSNSbbwA0yc-UgRicwiimRgze2ZCc2OCWvfuQbMzamlPYBxMY0nAaEj4YU8T95sp72UNOf0_sjCg-5aM3ujf5hFsSLVt2lIA4JUU28pk-rKesdkZiu79c"/>
+</div>
+<span class="text-sm font-bold text-primary line-clamp-1">Architectural Semiotics</span>
+<span class="text-[0.65rem] text-on-surface-variant font-medium">RESEARCH JOURNAL</span>
+</div>
+<div class="flex flex-col gap-3 group cursor-pointer">
+<div class="aspect-[3/4] rounded-lg overflow-hidden bg-surface-container shadow-md group-hover:-translate-y-1 transition-all">
+<img alt="Library" class="w-full h-full object-cover" data-alt="dark moody image of an old library aisle with leather bound books and golden light from a far window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8QfDCLmqPOB0cZ6hZANXWQCYHMUh4xEi8WVRZMLL-lovFKzMjCQWUfmXREgTPHE2ZD9FvQAFFZok7Ittp7FOTBmZvInnr7Fxz2AelEt3wk3ZJNX8iAHn3g_OFRiq0Apb63f8V4ulX9dA6abrTliU-4v8qoN8ofYd4NnHXhYhI1TKm_AH8Ll-F35zcW3h_YyqCyKnsv7HTcChqxkKFpArNyEXcpl5x45kC7ewapS4zBQCTVi1kuS6FVAkEGiYYyKZSflCDsV0E6cc"/>
+</div>
+<span class="text-sm font-bold text-primary line-clamp-1">The Ethics of AI</span>
+<span class="text-[0.65rem] text-on-surface-variant font-medium">QUICK READ</span>
+</div>
+<div class="flex flex-col gap-3 group cursor-pointer">
+<div class="aspect-[3/4] rounded-lg overflow-hidden bg-surface-container shadow-md group-hover:-translate-y-1 transition-all">
+<img alt="Study space" class="w-full h-full object-cover" data-alt="clean minimal study workspace with a single laptop, a fountain pen, and a cup of black coffee" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArXTqX_3LRV5mR7o2URf-gl6GGHMU61zZAGWFAaJan4IErE4K27Kk1pdGT-AuXlh-97d0_V-Qc3AUUEIWy7_ku_1WG4IwZ3o-kxQhNY8TPKaWnpw0kRbUY7eA9ow7Hwugq2Tai7VZSAgF_UsBJzp09rziTMmQcZAbQKicYsyFf9n4nuD_Ht4BQFO-9STp9BF8zFU-JiPlCe2B00oeJCRGJay5l7Z6o5QxiZbZ281CCikp1gHkQ06NQfLTYVKnBmNAmkNbG61wUwZA"/>
+</div>
+<span class="text-sm font-bold text-primary line-clamp-1">Writing with Authority</span>
+<span class="text-[0.65rem] text-on-surface-variant font-medium">COURSE MATERIAL</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest shadow-[0px_-10px_30px_rgba(0,0,0,0.05)] flex items-center justify-around py-3 px-6 z-50">
+<button class="flex flex-col items-center gap-1 text-secondary">
+<span class="material-symbols-outlined" data-icon="menu_book" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<span class="text-[10px] font-bold">Queries</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-[10px] font-medium">Stats</span>
+</button>
+<button class="bg-primary text-white p-3 rounded-full -translate-y-6 shadow-xl border-4 border-surface">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="text-[10px] font-medium">Library</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="text-[10px] font-medium">Chat</span>
+</button>
+</nav>
+</body></html>

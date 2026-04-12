@@ -1,0 +1,2 @@
+This is sample content for data.txt.
+It is read by the /read-file route using the fs module.

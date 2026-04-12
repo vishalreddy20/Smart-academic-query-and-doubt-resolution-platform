@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scholar Ink | Doubt Resolution</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#c6c6cd",
+              "on-surface": "#191c1e",
+              "on-secondary-fixed-variant": "#005049",
+              "error": "#ba1a1a",
+              "primary-fixed": "#dae2fd",
+              "secondary-container": "#86f2e4",
+              "surface-container-high": "#e6e8ea",
+              "primary-container": "#131b2e",
+              "on-tertiary": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "tertiary-fixed": "#ffddb8",
+              "on-tertiary-container": "#b87500",
+              "surface-container": "#eceef0",
+              "background": "#f7f9fb",
+              "secondary-fixed-dim": "#6bd8cb",
+              "on-background": "#191c1e",
+              "secondary": "#006a61",
+              "surface-container-low": "#f2f4f6",
+              "error-container": "#ffdad6",
+              "surface": "#f7f9fb",
+              "primary-fixed-dim": "#bec6e0",
+              "inverse-primary": "#bec6e0",
+              "on-tertiary-fixed": "#2a1700",
+              "on-secondary-container": "#006f66",
+              "secondary-fixed": "#89f5e7",
+              "on-primary-fixed-variant": "#3f465c",
+              "outline": "#76777d",
+              "surface-tint": "#565e74",
+              "on-error-container": "#93000a",
+              "on-primary": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "inverse-on-surface": "#eff1f3",
+              "surface-variant": "#e0e3e5",
+              "tertiary": "#000000",
+              "tertiary-fixed-dim": "#ffb95f",
+              "surface-bright": "#f7f9fb",
+              "on-tertiary-fixed-variant": "#653e00",
+              "on-primary-fixed": "#131b2e",
+              "on-secondary-fixed": "#00201d",
+              "on-error": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "primary": "#000000",
+              "on-primary-container": "#7c839b",
+              "surface-container-highest": "#e0e3e5",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#2a1700",
+              "on-surface-variant": "#45464d"
+            },
+            fontFamily: {
+              "headline": ["Newsreader"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .glass {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-xl shadow-sm flex justify-between items-center px-10 py-4 max-w-[1440px] left-1/2 -translate-x-1/2 w-full">
+<div class="flex items-center gap-8">
+<h1 class="text-2xl font-serif italic text-slate-900">Scholar Ink</h1>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-600 hover:text-slate-900 transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 hover:text-slate-900 transition-colors" href="#">Archive</a>
+<a class="text-slate-600 hover:text-slate-900 transition-colors" href="#">Knowledge Base</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-100 border-none rounded-full text-sm w-64 focus:ring-2 focus:ring-secondary/20" placeholder="Search insights..." type="text"/>
+</div>
+<button class="p-2 text-slate-600 hover:bg-slate-100/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-600 hover:bg-slate-100/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full object-cover border border-slate-200" data-alt="Close-up portrait of a professional male scholar in a library setting with soft natural window lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUYGFV56NXeakqIpGjAHs1Hxf6EbfvbTKScd6LG395O91SfqlBUfg0bP-6un74x9ri6qJUyHiAJx5Z8m7qP_s5jtmoCm7TThNCrXn_7RwPKrFeiyOoxCTDNLgxKmqFjiZB791wrOA9ILD9-MJ7osx1AKlkxIhoTHZuHno4gNavpUKNA6gJy5wgDSWjB4Lo6IoAAvTp0AfLUjdMpQHGtmidAjOgB4ur9rAqvRKCd7OtF1G28EmOAGzZwtpBcXThK3xcfFEERd8CrSc"/>
+</div>
+</header>
+<div class="flex max-w-[1440px] mx-auto pt-20">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 flex flex-col p-6 gap-4 sticky top-20 bg-slate-100">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div>
+<p class="font-serif text-xl font-bold leading-none">Curator Tools</p>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">Academic Oversight</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<button class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-200 hover:translate-x-1 transition-all rounded-lg">
+<span class="material-symbols-outlined">pending_actions</span>
+<span class="text-sm font-medium tracking-tight">Active Doubts</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-200 hover:translate-x-1 transition-all rounded-lg">
+<span class="material-symbols-outlined">gavel</span>
+<span class="text-sm font-medium tracking-tight">Moderation Queue</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 bg-white text-teal-600 shadow-sm rounded-lg font-medium">
+<span class="material-symbols-outlined">forum</span>
+<span class="text-sm tracking-tight">My Responses</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-200 hover:translate-x-1 transition-all rounded-lg">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-sm font-medium tracking-tight">Resource Library</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-200 hover:translate-x-1 transition-all rounded-lg">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="text-sm font-medium tracking-tight">Saved Threads</span>
+</button>
+</nav>
+<button class="mt-4 bg-primary-container text-white py-3 px-4 rounded-xl font-medium shadow-lg hover:scale-[1.02] active:scale-95 transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Query
+            </button>
+<div class="mt-auto pt-6 flex flex-col gap-1 border-t border-slate-200">
+<button class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-teal-500 text-xs uppercase tracking-widest transition-colors">
+<span class="material-symbols-outlined text-lg">help</span>
+                    Support
+                </button>
+<button class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-teal-500 text-xs uppercase tracking-widest transition-colors">
+<span class="material-symbols-outlined text-lg">rule</span>
+                    Guidelines
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-10 flex gap-10 bg-background min-h-screen">
+<!-- Central Column -->
+<div class="flex-1 max-w-4xl space-y-8">
+<!-- Breadcrumbs & Status -->
+<div class="flex justify-between items-end">
+<nav class="flex items-center gap-2 text-sm text-on-surface-variant font-medium">
+<span>Dashboard</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span>Physics</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-primary font-semibold">Quantum Entanglement</span>
+</nav>
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase tracking-widest rounded-full flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                        RESOLVED
+                    </span>
+</div>
+<!-- Query Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.02)] p-10">
+<h2 class="text-4xl font-serif font-semibold text-primary leading-tight mb-6">Complexity of Quantum Entanglement in Macroscopic Systems</h2>
+<div class="flex items-center gap-4 mb-8">
+<img alt="Student avatar" class="w-10 h-10 rounded-full border border-slate-100" data-alt="Portrait of a young female university student looking thoughtful with spectacles, soft indoor studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfvebjZdGmLULDWGc9hmNF97mhTMSWwU6TKylNmafn12GgMRwx-Fvbw7HTGKvJ6rSovRu1VUw1AcUdZLD3tWMy2FIEysuKaXqyVw0jFMtVAkpsBfZKq9xodGB_dl4iHG9GZFFCvM_ic6BrTIGU_u626QFZcIoePwZVJw9G_aI95PKMo5OTGOnczf61jo0P_3cts9es70aq9LvxkiZX1KZgkK514Y2FDRdCFilC304YRRuL5JavbeqzyjkOx5PvJ7WdGI_bV8NsFOg"/>
+<div>
+<p class="text-sm font-semibold text-primary">Elara Vance</p>
+<p class="text-xs text-on-surface-variant">Submitted Oct 24, 2024 • Academic Tier: Graduate Research</p>
+</div>
+</div>
+<div class="space-y-4 text-slate-700 leading-relaxed font-body">
+<p>I am exploring the theoretical limits of decoherence when entanglement is scaled to macroscopic objects. Specifically, how do we reconcile the Penrose interpretation of gravity-induced collapse with the experimental results seen in recent optomechanical resonator tests?</p>
+<p>The current literature seems to diverge on whether the "objective reduction" happens at a specific mass threshold or if it is a continuous degradation of the wave function relative to environmental noise. Any clarification on the mathematical modeling for this transition would be invaluable.</p>
+</div>
+<div class="mt-8 pt-8 border-t border-slate-50">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">Academic Artifacts</p>
+<div class="flex flex-wrap gap-3">
+<div class="flex items-center gap-3 px-4 py-3 bg-surface-container-low rounded-lg border border-transparent hover:border-teal-500/20 transition-all cursor-pointer group">
+<span class="material-symbols-outlined text-red-500">picture_as_pdf</span>
+<span class="text-xs font-medium text-slate-600 group-hover:text-primary">Penrose_Interpretation_Review.pdf</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 bg-surface-container-low rounded-lg border border-transparent hover:border-teal-500/20 transition-all cursor-pointer group">
+<span class="material-symbols-outlined text-teal-600">table_chart</span>
+<span class="text-xs font-medium text-slate-600 group-hover:text-primary">Dataset_Optomechanical_Resonators.xlsx</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Resolution Card -->
+<div class="relative bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)] overflow-hidden border-t-4 border-secondary">
+<div class="bg-secondary/5 px-10 py-4 flex justify-between items-center">
+<div class="flex items-center gap-2 text-secondary font-semibold">
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-xs uppercase tracking-widest font-bold">Verified Resolution</span>
+</div>
+<span class="text-xs text-secondary/60">Resolved on Oct 26, 2024</span>
+</div>
+<div class="p-10">
+<div class="flex items-center gap-4 mb-10">
+<img alt="Faculty profile" class="w-14 h-14 rounded-full border-2 border-secondary/20" data-alt="Portrait of an older distinguished academic man with a beard and grey hair, professional library background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiBPv3SUlV5ohxUGg8uICkajb_aKV0J667byPmal5tHr0G7ot7eKWwH38NDv8gCmwZFCJoYfN4MwvLPuhI920XWN7rPhGhq6ocVbETpGGujmwAIct-PUa9HEFhs61ui8fcmYvaBftURtQJzZev29LYvmmt5IOQeh5RymeLgLB5uaEscqlT-J5Ru_T1BnCO6bYbwH1nduCr5sUvv-G6wQTyd8bFAGE0dRUd6n8xIKKEErWDhAyCtoe4bh34aK6vHDOKrGCdqiiKNBw"/>
+<div>
+<p class="text-lg font-serif font-bold text-primary">Dr. Aris Thorne</p>
+<p class="text-sm text-secondary font-medium italic">Professor of Theoretical Physics • Senior Curator</p>
+</div>
+</div>
+<div class="font-serif text-xl text-slate-800 leading-relaxed space-y-6">
+<p>To address the core of your query, Elara, the divergence you’ve observed stems from the fundamental tension between <span class="italic">Standard Quantum Mechanics</span> and the <span class="italic">Objective Reduction (OR)</span> models proposed by Penrose and Hameroff.</p>
+<p>The mathematical resolution lies in the Diósi-Penrose criterion, where the collapse time \(\tau_G\) is inversely proportional to the gravitational self-energy difference of the displaced mass distribution. In macroscopic systems, this energy difference becomes significant enough to force a collapse in timescales shorter than environmental decoherence.</p>
+</div>
+<div class="mt-10 p-8 bg-slate-50 rounded-xl space-y-4">
+<h4 class="text-sm font-bold uppercase tracking-widest text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">science</span>
+                                Deep Dive: Gravitational Coupling
+                            </h4>
+<p class="text-sm text-slate-600 leading-relaxed">The recent experiments with optomechanical resonators (specifically the 2023 Leiden study) suggest that while the environment is the primary driver of decoherence, there is a "noise floor" that cannot be explained without incorporating gravitational self-interaction. We model this as a non-linear addition to the Schrödinger equation, effectively bounding the superposition lifetime.</p>
+<div class="pt-4 border-t border-slate-200">
+<p class="text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-widest">Citations</p>
+<ul class="text-[11px] text-slate-500 italic space-y-1">
+<li>1. Penrose, R. (1996). "On Gravity's role in Quantum State Reduction". General Relativity and Gravitation.</li>
+<li>2. Adler, S. L. (2004). "Quantum Theory as an Emergent Phenomenon". Cambridge University Press.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Follow-up Section -->
+<div class="bg-surface-container-low/50 rounded-xl p-8 border border-slate-200/50">
+<div class="flex items-center gap-4 mb-6">
+<span class="material-symbols-outlined text-slate-400">comment</span>
+<h3 class="text-sm font-bold uppercase tracking-widest text-slate-500">Discussion &amp; Follow-up</h3>
+</div>
+<div class="flex gap-4">
+<img alt="Student avatar" class="w-8 h-8 rounded-full" data-alt="Small circular profile photo of a young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeB7C06eoIBqbSeVpF0aFJPRWPtc47126zwkPsX4Dyf8p3AJeb7erOCo8TcosyWLrvcPG15V0-zrMVj4GDlScnq4W7s_MWPdYNVJlZ_mFJRk4ukGpkw5f_YAcegSmQPOriHvQeFsTg3_2QCJbjEQU_Pna-kCvNqbRrny55YDsUe8UrYFAjMQdRf7QCU28ehyy2miAEPJSEZKfpDsxUY6E3zE4Z803pYNyhewSgijlpcCS3F0AVYJ8O1Fu_3Y9RThOk55bGV3pCqSM"/>
+<div class="flex-1">
+<textarea class="w-full bg-white border border-slate-200 rounded-lg text-sm p-4 h-24 focus:ring-2 focus:ring-secondary/20 focus:border-secondary/30 transition-all" placeholder="Ask a clarifying question..."></textarea>
+<div class="mt-3 flex justify-end">
+<button class="px-6 py-2 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors">Post Follow-up</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar -->
+<aside class="w-80 space-y-6">
+<!-- Query Health -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-slate-100">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">Query Health</p>
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm font-medium text-slate-600">Quality Score</span>
+<span class="text-lg font-bold text-teal-600">98%</span>
+</div>
+<div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-teal-500 h-full w-[98%]"></div>
+</div>
+<p class="mt-4 text-[11px] text-slate-500 leading-tight">This query has been flagged for "Excellent Clarity" and "High Academic Rigor."</p>
+</div>
+<!-- Participants -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-slate-100">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">Participants</p>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<img alt="Faculty" class="w-8 h-8 rounded-full" data-alt="Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3kXshWEwYX2pso8REuGRKT1qzbeEO1fvnnzX34FnxFjrrRuZDXQjGwIyYm6JoEihCmbEqDkp4OwwP5Xb1IR_Z9ZV1CZkoHf9dgsTSaQW-nGBcWLlfdUGeXe7GIcX6u33fhiKqP4Q67oMxCiyJnRZ1wAKTGoydYGDkpE04EoMuJqIf5tqTYBUMF0iOs0HyUAljlHxRYH-NFX2y1RbCxuvEcrvGeLnjNpIHEuX3gkdzEcrMCO_51Zp96iJOBOgJa9a1YBuurXz7CGo"/>
+<div>
+<p class="text-xs font-bold text-primary leading-none">Dr. Aris Thorne</p>
+<p class="text-[10px] text-teal-600 font-medium">Assigned Faculty Mentor</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<img alt="Faculty" class="w-8 h-8 rounded-full grayscale opacity-50" data-alt="Man in professor outfit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoESuwrGCr2C5PVreMFEE1qh0OaWkOAzVK7wkqB6r7ddTvOSfX5TbiLfl-xfzDmFpIvx7lUURCfgmf5zuxMVM1W6STStFO1d8fo-8prbxSxlN1XS5F3PPIDP6klVr_cvgiEF2MzgxSpMTHdkdylOEhVuXbf2zZlu5dTecK5SOGrLVJUyAwwHoYnni0BNIf3VyOUj1hGtqdDs0o9pHyugb8uhNrKgOuSogR8FozMIBHEnIi-qoMKLxfZB5lK8ssOHDUIUG2zD4zXKU"/>
+<div>
+<p class="text-xs font-bold text-slate-400 leading-none">Dr. Sarah Chen</p>
+<p class="text-[10px] text-slate-400">Observer</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Actions Panel -->
+<div class="bg-primary-container p-6 rounded-xl shadow-xl">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">Actions</p>
+<div class="flex flex-col gap-2">
+<button class="flex items-center gap-3 w-full px-4 py-3 bg-white/5 hover:bg-white/10 text-white rounded-lg transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+                            Export as PDF
+                        </button>
+<button class="flex items-center gap-3 w-full px-4 py-3 bg-white/5 hover:bg-white/10 text-white rounded-lg transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-lg">archive</span>
+                            Save to Archive
+                        </button>
+<button class="flex items-center gap-3 w-full px-4 py-3 bg-secondary text-white rounded-lg transition-colors text-sm font-bold shadow-lg shadow-secondary/20">
+<span class="material-symbols-outlined text-lg">format_quote</span>
+                            Cite this Response
+                        </button>
+</div>
+</div>
+<!-- Ad/Context -->
+<div class="p-6 rounded-xl bg-secondary-container/10 border border-secondary-container/20 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-3xl text-secondary mb-3">auto_awesome</span>
+<p class="text-xs font-bold text-primary uppercase tracking-tighter">AI Synthesizer</p>
+<p class="text-[11px] text-secondary mt-1 px-4">Generate a 1-page summary of this resolution for quick review.</p>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full mt-auto border-t border-slate-200/50 bg-slate-50">
+<div class="flex flex-col md:flex-row justify-between items-center px-10 py-12 gap-6 max-w-[1440px] mx-auto">
+<p class="font-sans text-xs uppercase tracking-widest text-slate-400">© 2024 Scholar Ink Academic Press. All rights reserved.</p>
+<div class="flex gap-8">
+<a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 underline underline-offset-4 transition-all" href="#">Institutional Access</a>
+<a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 underline underline-offset-4 transition-all" href="#">Privacy Policy</a>
+<a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 underline underline-offset-4 transition-all" href="#">Ethical Standards</a>
+<a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-teal-500 underline underline-offset-4 transition-all" href="#">API Documentation</a>
+</div>
+</div>
+</footer>
+</body></html>

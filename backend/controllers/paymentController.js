@@ -19,14 +19,14 @@ const getRazorpayClient = () => {
 // Plan pricing (in paise - 100 paise = 1 INR)
 const PLANS = {
   premium: {
-    monthly: 99900, // ₹999
-    quarterly: 249900, // ₹2499
-    yearly: 899900, // ₹8999
+    monthly: 29900,   // ₹299
+    quarterly: 74900, // ₹749
+    yearly: 249900,  // ₹2499
   },
   pro: {
-    monthly: 199900, // ₹1999
-    quarterly: 499900, // ₹4999
-    yearly: 1699900, // ₹16999
+    monthly: 59900,   // ₹599
+    quarterly: 149900, // ₹1499
+    yearly: 499900,  // ₹4999
   },
 };
 

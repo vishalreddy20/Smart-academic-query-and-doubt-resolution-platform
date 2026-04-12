@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Knowledge Base | Scholar Ink</title>
+<!-- Google Fonts: Newsreader & Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary": "#006a61",
+                        "inverse-surface": "#2d3133",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#6bd8cb",
+                        "primary": "#000000",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "tertiary": "#000000",
+                        "surface-container-high": "#e6e8ea",
+                        "outline": "#76777d",
+                        "background": "#f7f9fb",
+                        "secondary-container": "#86f2e4",
+                        "on-surface": "#191c1e",
+                        "on-secondary-fixed-variant": "#005049",
+                        "on-surface-variant": "#45464d",
+                        "surface-bright": "#f7f9fb",
+                        "primary-container": "#131b2e",
+                        "outline-variant": "#c6c6cd",
+                        "on-secondary-fixed": "#00201d",
+                        "on-tertiary-container": "#b87500",
+                        "tertiary-fixed": "#ffddb8",
+                        "surface-variant": "#e0e3e5",
+                        "surface-tint": "#565e74",
+                        "on-secondary-container": "#006f66",
+                        "primary-fixed": "#dae2fd",
+                        "on-primary-container": "#7c839b",
+                        "on-primary": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "inverse-primary": "#bec6e0",
+                        "primary-fixed-dim": "#bec6e0",
+                        "tertiary-container": "#2a1700",
+                        "secondary-fixed": "#89f5e7",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-background": "#191c1e",
+                        "on-primary-fixed": "#131b2e",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container": "#eceef0"
+                    },
+                    fontFamily: {
+                        "headline": ["Newsreader", "serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+        .editorial-shadow {
+            box-shadow: 0px 20px 40px rgba(15, 23, 42, 0.06);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #000000 0%, #131b2e 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Top Navigation Bar (Shared Component) -->
+<header class="bg-slate-50/80 backdrop-blur-xl shadow-sm sticky top-0 z-50 w-full">
+<div class="flex justify-between items-center w-full px-10 py-4 max-w-[1440px] mx-auto">
+<div class="text-2xl font-serif italic font-bold text-slate-900">Scholar Ink</div>
+<nav class="hidden md:flex items-center gap-x-8">
+<a class="text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-wider text-xs font-medium" href="#">Dashboard</a>
+<a class="text-teal-600 font-bold border-b-2 border-teal-600 pb-1 uppercase tracking-wider text-xs" href="#">Knowledge Base</a>
+<a class="text-slate-600 hover:text-slate-900 transition-colors uppercase tracking-wider text-xs font-medium" href="#">Post Doubt</a>
+</nav>
+<div class="flex items-center gap-x-4">
+<button class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="Administrator Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-slate-200" data-alt="professional portrait of a senior academic administrator with glasses neutral background soft studio lighting minimalist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIs38hkqNkf69LwaGaGUPnYDQmD2MMKIJOW3tNBGDTXmb0Be6C1JgEElzFrKlMIbxh-JCbWo9ewBeDwPKaA6lkN92ogG30fxajRrKZqRfYzp2DObAe3vsOxi99E66-BiUkvgc1kJ94sXfMIBrwHqj6Ln7vgk7wherGVzB60mu_0DQ2QOgLEJUR-cfJky_zwiPhftI3WW0pZ_NeJ1BaXBPLz7bXvuSWY-IfVdYnXWVxoPxwCZJMTJgpZiSz3igjJqO9yunRjV_G_rs"/>
+</div>
+</div>
+</header>
+<main class="min-h-screen">
+<!-- Hero Search Section -->
+<section class="relative py-20 px-6 hero-gradient overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<img alt="Background Texture" class="w-full h-full object-cover" data-alt="abstract fine art texture of aged parchment with faint mathematical formulas and ink washes dark blue and black tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmmc2WYNSB8HeMcy7XUNe6isVeBNLKBsEyA97qbEYjIFq1iU5I9ZMdeVX-HyXt6dLuUMJWQB7liwK1iBjf2t2SWgqwxaWHYERXuI_GRO9Q-eqwxW3Jg1maicFVivO_BwoDKdyEW82vUIuKJPHnkYY5xvx_x0zurLbwxmZjYBolBfyJyrMtYTE8uDE256iZa9tp_g4P-E5se6U4jfviH_uUYvxRbyz8ZGL6Fkfg0-n7AyKfWVDfpTvhm2iyPP3nCFz1caJbkpkVfxg"/>
+</div>
+<div class="relative max-w-4xl mx-auto text-center">
+<h1 class="font-headline text-5xl md:text-7xl text-white mb-8 leading-tight tracking-tight">The Library of Reason</h1>
+<p class="text-on-primary-container text-lg md:text-xl mb-12 max-w-2xl mx-auto font-body leading-relaxed">
+                    Access centuries of verified academic wisdom, curated for the modern scholar.
+                </p>
+<div class="relative group max-w-2xl mx-auto">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-on-primary-container/60">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</div>
+<input class="w-full pl-14 pr-6 py-5 bg-surface-container-lowest/10 backdrop-blur-md border border-white/10 text-white rounded-xl focus:ring-2 focus:ring-secondary focus:bg-surface-container-lowest/20 transition-all placeholder:text-white/40 font-body outline-none" placeholder="Search the repository of verified academic inquiries..." type="text"/>
+</div>
+</div>
+</section>
+<!-- Filters Section -->
+<section class="py-8 px-6 bg-surface-container-low">
+<div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<!-- Subject Filters -->
+<div class="flex flex-wrap gap-3">
+<button class="px-5 py-2 rounded-full bg-secondary text-white text-sm font-medium transition-all hover:scale-105">All Disciplines</button>
+<button class="px-5 py-2 rounded-full bg-white text-on-surface text-sm font-medium border border-outline-variant/30 hover:border-secondary transition-all">Quantum Physics</button>
+<button class="px-5 py-2 rounded-full bg-white text-on-surface text-sm font-medium border border-outline-variant/30 hover:border-secondary transition-all">Macroeconomics</button>
+<button class="px-5 py-2 rounded-full bg-white text-on-surface text-sm font-medium border border-outline-variant/30 hover:border-secondary transition-all">Philosophy of Mind</button>
+<button class="px-5 py-2 rounded-full bg-white text-on-surface text-sm font-medium border border-outline-variant/30 hover:border-secondary transition-all">Bioinformatics</button>
+</div>
+<!-- Sorting -->
+<div class="flex items-center gap-4 text-sm font-medium text-on-surface-variant">
+<span class="uppercase tracking-widest text-[10px]">Sort By</span>
+<select class="bg-transparent border-none focus:ring-0 cursor-pointer font-bold text-on-surface">
+<option>Most Cited</option>
+<option>Most Helpful</option>
+<option>Recent Arrivals</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Results Grid -->
+<section class="py-16 px-6 max-w-[1440px] mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+<!-- Result Card 1 -->
+<article class="group bg-surface-container-lowest editorial-shadow rounded-xl p-8 flex flex-col h-full border border-transparent hover:border-secondary/20 transition-all">
+<div class="flex justify-between items-start mb-6">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-sm text-[10px] font-bold uppercase tracking-widest">Macroeconomics</span>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Verified</span>
+</div>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4 leading-snug group-hover:text-secondary transition-colors">
+                        Impact of Algorithmic Trading on Global Market Volatility
+                    </h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-grow line-clamp-3">
+                        Recent longitudinal studies suggest that high-frequency algorithmic models contribute significantly to "flash crashes" but provide liquidity during standard periods...
+                    </p>
+<div class="pt-6 border-t border-surface-container flex justify-between items-center">
+<div class="flex items-center gap-3">
+<img alt="Curator" class="w-8 h-8 rounded-full object-cover" data-alt="portrait of a distinguished female professor with short grey hair intellectual look soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZcTJdPRKHSyzBPaXgrQ7-72yg_GfdZcrXq17GwmMrGzkx09_et0zOXR5xSljlYSRztp6tUAmm-WuMfeS5ZhYEAMlh7FPxCYhoRbV_Ze26gudGxEj8vBwIGgdwi4Ee-KKF_6LIyo8i0vawW15P-REBO3WL12bC1VFm5P5D5_us32T0YQm7SCO8Jy1H8N-3NzilXREYorxqSdZVW1gfJYKpZTLUbFmj2-iPapS6OQeJBMYlXkBqjRiK3ht6HXLau-cJLc0wPpfwyKM"/>
+<div>
+<p class="text-[11px] font-bold text-on-surface">Dr. Elena Rostova</p>
+<p class="text-[10px] text-on-surface-variant">Nov 14, 2023</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[11px] font-bold text-secondary">1.2k Citations</p>
+<p class="text-[10px] text-on-surface-variant">98% Helpful</p>
+</div>
+</div>
+</article>
+<!-- Result Card 2 -->
+<article class="group bg-surface-container-lowest editorial-shadow rounded-xl p-8 flex flex-col h-full border border-transparent hover:border-secondary/20 transition-all">
+<div class="flex justify-between items-start mb-6">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-sm text-[10px] font-bold uppercase tracking-widest">Quantum Physics</span>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Verified</span>
+</div>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4 leading-snug group-hover:text-secondary transition-colors">
+                        Entanglement Distribution in Cryogenic Networks
+                    </h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-grow line-clamp-3">
+                        The primary challenge remains the decoherence of qubits over long-distance fiber optic cables. Our latest query synthesis explores the use of diamond-vacancy centers...
+                    </p>
+<div class="pt-6 border-t border-surface-container flex justify-between items-center">
+<div class="flex items-center gap-3">
+<img alt="Curator" class="w-8 h-8 rounded-full object-cover" data-alt="portrait of a young brilliant male physicist in a lab setting modern academia aesthetic soft focus background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtdcsuWDz3lXzI4zHm75x8ulwFKquQMY6DHXON8gotYtXECPSPoocPN0H5s6c_XEBXonXEsSkYMFrZQ2FlyY9OgIdBvZ3zPK8x0qBT43Rw4BO_LG9ZaFb5WOdK-FOtQtfDn03qUxgklZDIfSdNnNYm9SNHnZT3PejE6V0nben8GzGXutU-fDF0MjedC-objGniBgOr0Sti1vyWO4hEiXxAEF57agz6hWsjFIhUK_q8Z-8JPfiAufvUSCAwkTJw2w5AuhDFeo4dzQI"/>
+<div>
+<p class="text-[11px] font-bold text-on-surface">Prof. Julian Thorne</p>
+<p class="text-[10px] text-on-surface-variant">Oct 28, 2023</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[11px] font-bold text-secondary">854 Citations</p>
+<p class="text-[10px] text-on-surface-variant">94% Helpful</p>
+</div>
+</div>
+</article>
+<!-- Result Card 3 (Bento-style tall) -->
+<article class="group bg-primary-container text-white editorial-shadow rounded-xl p-8 flex flex-col h-full lg:row-span-2 border border-transparent hover:border-secondary/50 transition-all relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 opacity-20 transform rotate-12 pointer-events-none">
+<span class="material-symbols-outlined text-[200px]" data-icon="library_books">library_books</span>
+</div>
+<div class="flex justify-between items-start mb-6">
+<span class="px-3 py-1 bg-secondary text-white rounded-sm text-[10px] font-bold uppercase tracking-widest">Philosophy</span>
+<div class="flex items-center gap-1 text-secondary-fixed">
+<span class="material-symbols-outlined text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Verified</span>
+</div>
+</div>
+<h3 class="font-headline text-3xl font-bold mb-6 leading-tight">
+                        Ethics of Generative Consciousness: A Post-Materialist Perspective
+                    </h3>
+<p class="text-on-primary-container text-base leading-relaxed mb-12">
+                        As we move toward neural surrogates, the definition of 'experience' undergoes a radical shift. This comprehensive dossier examines the phenomenological status of synthetic minds.
+                    </p>
+<div class="space-y-4 mb-auto">
+<div class="flex items-center gap-4 py-3 border-b border-white/10">
+<span class="material-symbols-outlined text-secondary" data-icon="menu_book">menu_book</span>
+<span class="text-sm">45 Referenced Works</span>
+</div>
+<div class="flex items-center gap-4 py-3 border-b border-white/10">
+<span class="material-symbols-outlined text-secondary" data-icon="groups">groups</span>
+<span class="text-sm">Peer Reviewed by 12 Scholars</span>
+</div>
+</div>
+<div class="pt-8 flex justify-between items-center mt-12">
+<div class="flex items-center gap-3">
+<img alt="Curator" class="w-10 h-10 rounded-full object-cover border-2 border-secondary" data-alt="portrait of an older man philosopher with a thoughtful expression classic suit soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJgqyAlL0AvuE4GyaE-FxnqqLifmuNmBx0-h1qCvqWIDt2xGJ22q2UdIpQSFz5kw0N_hrA3uUzb16Ai8ivo_kXwrimIxls0O_HO8McXekJlnMkl8sgd70SVCIGumjIk9m_zBApsSWrAJDylvM212C8P5OENfbN5YSTD1qp751D81gcWJLSxE4QjJ9o1HBqiSmr_QC8EA1UwBqnEQl2ZS57e4HUZB_Coc0LbAoSuUnMe5bX0HY6mKgbASqbwhC5O_HPd-Xyh1jrSAE"/>
+<div>
+<p class="text-xs font-bold">Dr. Silas Vance</p>
+<p class="text-[10px] opacity-60">Sept 12, 2023</p>
+</div>
+</div>
+<button class="bg-secondary px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest">Read Dossier</button>
+</div>
+</article>
+<!-- Result Card 4 -->
+<article class="group bg-surface-container-lowest editorial-shadow rounded-xl p-8 flex flex-col h-full border border-transparent hover:border-secondary/20 transition-all">
+<div class="flex justify-between items-start mb-6">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-sm text-[10px] font-bold uppercase tracking-widest">Bioinformatics</span>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Verified</span>
+</div>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4 leading-snug group-hover:text-secondary transition-colors">
+                        Mapping Neural Plasticity via Proteomic Sequencing
+                    </h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-grow line-clamp-3">
+                        Using CRISPR-based tagging, researchers have identified key protein markers that indicate synaptic reorganization during late-stage learning cycles...
+                    </p>
+<div class="pt-6 border-t border-surface-container flex justify-between items-center">
+<div class="flex items-center gap-3">
+<img alt="Curator" class="w-8 h-8 rounded-full object-cover" data-alt="portrait of a scientific researcher woman wearing a white coat in a biotech lab soft blue lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-4Wq3QPYVkIj0E1Hjshe_s-fuGuIZRPVk_plsCijc3ED_n11nNY8hve8g0D9hXmjlDIAbDMxhhe6-64aSFErpcYTcZfdVD_3bUH9Oq_oO29iFW0BksFWIETcJQo826Ld2CM6dggPqQ8rdmuRWZPpJ1zT9tMJXP1IMZrob2oJh0EcZo6SLb9xuBThwP_HMkjfdm3SLHam-p19PZAMYok45JqR5GUp5f6BT5esiMjsFUsZa-fLXde2Kqq7T9L5jVO0fL-PG3rlv6JE"/>
+<div>
+<p class="text-[11px] font-bold text-on-surface">Dr. Sarah Chen</p>
+<p class="text-[10px] text-on-surface-variant">Dec 01, 2023</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[11px] font-bold text-secondary">2.1k Citations</p>
+<p class="text-[10px] text-on-surface-variant">99% Helpful</p>
+</div>
+</div>
+</article>
+<!-- Result Card 5 -->
+<article class="group bg-surface-container-lowest editorial-shadow rounded-xl p-8 flex flex-col h-full border border-transparent hover:border-secondary/20 transition-all">
+<div class="flex justify-between items-start mb-6">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-sm text-[10px] font-bold uppercase tracking-widest">Macroeconomics</span>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Verified</span>
+</div>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4 leading-snug group-hover:text-secondary transition-colors">
+                        Post-Fiat Currencies: Stability in Decentralized Governance
+                    </h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-grow line-clamp-3">
+                        The volatility of legacy cryptocurrencies is addressed through algorithmic reserve protocols. This inquiry analyzes the longevity of 'stable-asset' ecosystems...
+                    </p>
+<div class="pt-6 border-t border-surface-container flex justify-between items-center">
+<div class="flex items-center gap-3">
+<img alt="Curator" class="w-8 h-8 rounded-full object-cover" data-alt="portrait of a finance expert professional looking male modern minimalist office warm ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS4Fils1sPb-mZhEP-74JaybTlJz7FyIP2QQ2t3_Z6aMAn8M9ootfKX0MiUlT-bx91ofbynEMp1DdpFOXzZvL7KlDAbkiYEvXgP1IQNiNYe9J6djZaWvAEdcK9idsTYrVNfXiN4LK9Ja6-HKSknD0jekV3Mz2i4FnFjA3J0U1sZsNRNVDE1RFLoyoUYVaN7ECZ4dx3ntJo0X8seWb31CkjfxBcBunSAhNDcSkBjC7rQuk1iEB3KN3K2FefiyqBKu_Do8saAqAZurk"/>
+<div>
+<p class="text-[11px] font-bold text-on-surface">Markus Aureli</p>
+<p class="text-[10px] text-on-surface-variant">Nov 22, 2023</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[11px] font-bold text-secondary">340 Citations</p>
+<p class="text-[10px] text-on-surface-variant">87% Helpful</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Pagination Section -->
+<section class="py-20 px-6">
+<div class="max-w-md mx-auto flex items-center justify-between">
+<button class="p-3 rounded-full hover:bg-surface-container-high transition-colors flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+<span class="text-xs font-bold uppercase tracking-widest">Previous</span>
+</button>
+<div class="flex items-center gap-2">
+<span class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white text-sm font-bold">1</span>
+<span class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high cursor-pointer text-sm font-medium">2</span>
+<span class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high cursor-pointer text-sm font-medium">3</span>
+<span class="px-2 text-on-surface-variant">...</span>
+<span class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high cursor-pointer text-sm font-medium">12</span>
+</div>
+<button class="p-3 rounded-full hover:bg-surface-container-high transition-colors flex items-center gap-2 text-on-surface-variant">
+<span class="text-xs font-bold uppercase tracking-widest">Next</span>
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Sidebar (Shared Component Logic - Suppressed because this is the public Knowledge Base) -->
+<!-- The user context suggests this is a "Top Level Destination", hence using the TopNavBar as the primary shell. -->
+<footer class="bg-surface-container-low py-12 px-10 border-t border-surface-container-high">
+<div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col items-center md:items-start">
+<div class="text-xl font-serif italic font-bold text-slate-900 mb-2">Scholar Ink</div>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-tighter">The Digital Curator for Academic Integrity</p>
+</div>
+<div class="flex gap-10">
+<a class="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a>
+<a class="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors" href="#">Academic Ethics</a>
+</div>
+<div class="text-[10px] text-on-surface-variant/60 uppercase tracking-widest">
+                © 2024 Scholar Ink. All Rights Reserved.
+            </div>
+</div>
+</footer>
+</body></html>

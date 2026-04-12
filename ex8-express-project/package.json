@@ -1,0 +1,12 @@
+{
+  "name": "ex8-express-project",
+  "version": "1.0.0",
+  "description": "ExNo:8 Express.js based web development example",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

@@ -24,8 +24,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData) => {
-    localStorage.setItem('academicUser', JSON.stringify(userData));
-    setUser(userData);
+    const userWithId = { ...userData, id: userData._id || userData.id };
+    localStorage.setItem('academicUser', JSON.stringify(userWithId));
+    setUser(userWithId);
   };
 
   const logout = () => {
@@ -33,8 +34,16 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const updateUser = (partial) => {
+    setUser((prev) => {
+      const updated = { ...prev, ...partial };
+      localStorage.setItem('academicUser', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

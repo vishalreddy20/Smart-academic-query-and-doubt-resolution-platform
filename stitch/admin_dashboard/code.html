@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scholar Ink | Curator Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#3f465c",
+              "inverse-on-surface": "#eff1f3",
+              "secondary": "#006a61",
+              "inverse-surface": "#2d3133",
+              "surface-dim": "#d8dadc",
+              "on-tertiary": "#ffffff",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              "secondary-fixed-dim": "#6bd8cb",
+              "primary": "#000000",
+              "tertiary-fixed-dim": "#ffb95f",
+              "tertiary": "#000000",
+              "surface-container-high": "#e6e8ea",
+              "outline": "#76777d",
+              "background": "#f7f9fb",
+              "secondary-container": "#86f2e4",
+              "on-surface": "#191c1e",
+              "on-secondary-fixed-variant": "#005049",
+              "on-surface-variant": "#45464d",
+              "surface-bright": "#f7f9fb",
+              "primary-container": "#131b2e",
+              "outline-variant": "#c6c6cd",
+              "on-secondary-fixed": "#00201d",
+              "on-tertiary-container": "#b87500",
+              "tertiary-fixed": "#ffddb8",
+              "surface-variant": "#e0e3e5",
+              "surface-tint": "#565e74",
+              "on-secondary-container": "#006f66",
+              "primary-fixed": "#dae2fd",
+              "on-primary-container": "#7c839b",
+              "on-primary": "#ffffff",
+              "surface": "#f7f9fb",
+              "inverse-primary": "#bec6e0",
+              "primary-fixed-dim": "#bec6e0",
+              "tertiary-container": "#2a1700",
+              "secondary-fixed": "#89f5e7",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "on-secondary": "#ffffff",
+              "on-tertiary-fixed": "#2a1700",
+              "surface-container-highest": "#e0e3e5",
+              "on-background": "#191c1e",
+              "on-primary-fixed": "#131b2e",
+              "on-tertiary-fixed-variant": "#653e00",
+              "surface-container-low": "#f2f4f6",
+              "surface-container": "#eceef0"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .serif-italic { font-style: italic; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-background min-h-screen flex overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 bg-white dark:bg-slate-950 flex flex-col h-full py-8 px-4 gap-y-2 shrink-0 border-r-0">
+<div class="mb-10 px-4">
+<h2 class="font-serif Newsreader font-bold text-xl text-slate-900 dark:text-slate-50">Curator Panel</h2>
+<p class="font-sans Inter medium text-sm text-slate-500">Editorial Authority</p>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-slate-100 dark:bg-slate-800 text-teal-600 dark:text-teal-400 rounded-lg font-sans Inter medium text-sm hover:translate-x-1 transition-transform duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Overview
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-lg font-sans Inter medium text-sm hover:translate-x-1 transition-transform duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+                Moderation
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-lg font-sans Inter medium text-sm hover:translate-x-1 transition-transform duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                User Analytics
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-lg font-sans Inter medium text-sm hover:translate-x-1 transition-transform duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+                Knowledge Index
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-lg font-sans Inter medium text-sm hover:translate-x-1 transition-transform duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+                System Health
+            </a>
+</nav>
+<div class="mt-auto px-4 space-y-4">
+<button class="w-full bg-primary text-on-primary py-2.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
+                New Query
+            </button>
+<div class="pt-4 space-y-1">
+<a class="flex items-center gap-3 py-2 text-slate-500 dark:text-slate-400 text-sm hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+                    Support
+                </a>
+<a class="flex items-center gap-3 py-2 text-slate-500 dark:text-slate-400 text-sm hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    Sign Out
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto">
+<!-- Top Navigation -->
+<header class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-sm dark:shadow-none border-b-0">
+<div class="flex justify-between items-center w-full px-10 py-4 max-w-[1440px] mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-serif italic font-bold text-slate-900 dark:text-slate-50">Scholar Ink</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-teal-600 dark:text-teal-400 font-bold border-b-2 border-teal-600 dark:border-teal-400 pb-1 text-sm uppercase tracking-wider" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors text-sm uppercase tracking-wider" href="#">Knowledge Base</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors text-sm uppercase tracking-wider" href="#">Post Doubt</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="Administrator Profile" class="w-9 h-9 rounded-full object-cover ring-2 ring-slate-200" data-alt="Close-up portrait of a professional male administrator in a clean office setting, soft natural lighting, authoritative and friendly." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0Z4BoskH5_yu4nz3pYMi6DJSwWfNKjTQ-v6gOuh8zxx_TT0c2IfP3XPtd9OIUjbC0T4ruvSsnNcRPx8exVX_3DYgkBiHGfFwupBCxxSpTrUIRwrKbVSXhygltZ198q7fprCujpEZWRbeI3P432hfKZnFLyc3MiduEwu5QKdFXY4WXH1sS29e0gjnTJi3vaK2GVSzudbMPNE4u5Op3Yk7sYslSH66qeIDrTBoTiSn6yPgKOnApZgRbBvU8X74lKBNFZbo3OYFZ0Hg"/>
+</div>
+</div>
+</header>
+<div class="p-10 max-w-[1440px] mx-auto space-y-10">
+<!-- Hero Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-serif text-5xl font-bold text-primary mb-2">Editorial Authority</h1>
+<p class="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+                        Orchestrating the flow of academic discourse. Monitor platform health, curate doubt resolution pathways, and manage the elite faculty network.
+                    </p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2.5 rounded-lg bg-surface-container-high text-on-surface text-sm font-medium hover:translate-y-[-1px] transition-transform">
+                        Download Report
+                    </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-on-primary text-sm font-medium hover:scale-[1.02] shadow-sm transition-all">
+                        System Status: Optimal
+                    </button>
+</div>
+</div>
+<!-- KPI Row: Bento Style -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border-l-4 border-teal-600">
+<span class="text-label-md uppercase tracking-wider text-on-surface-variant font-medium">Total Users</span>
+<div class="flex items-baseline gap-2 mt-4">
+<span class="text-4xl font-serif font-bold text-primary">12,482</span>
+<span class="text-teal-600 text-sm font-medium">+12%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<span class="text-label-md uppercase tracking-wider text-on-surface-variant font-medium">Active Faculty</span>
+<div class="flex items-baseline gap-2 mt-4">
+<span class="text-4xl font-serif font-bold text-primary">842</span>
+<span class="text-on-surface-variant text-sm font-medium">Global</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border-l-4 border-on-secondary-container">
+<span class="text-label-md uppercase tracking-wider text-on-surface-variant font-medium">Doubts Resolved</span>
+<div class="flex items-baseline gap-2 mt-4">
+<span class="text-4xl font-serif font-bold text-primary">45,903</span>
+<span class="text-teal-600 text-sm font-medium">+5.2k</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<span class="text-label-md uppercase tracking-wider text-on-surface-variant font-medium">Satisfaction</span>
+<div class="flex items-baseline gap-2 mt-4">
+<span class="text-4xl font-serif font-bold text-primary">4.9</span>
+<span class="text-amber-500 material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</section>
+<!-- Analytics & Management -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Analytics Section (Chart Mockups) -->
+<div class="lg:col-span-8 space-y-8">
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-serif text-2xl font-bold">Query Volume &amp; Resolution Trends</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 rounded-full bg-slate-100 text-xs font-medium text-slate-600">Weekly</span>
+<span class="px-3 py-1 rounded-full bg-teal-50 text-xs font-medium text-teal-700">Monthly</span>
+</div>
+</div>
+<div class="h-64 flex items-end justify-between gap-2 px-2">
+<!-- Simple Bar Visualizer -->
+<div class="flex-1 bg-surface-container-low rounded-t-lg h-[40%] transition-all hover:bg-teal-600/20"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-lg h-[55%] transition-all hover:bg-teal-600/20"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-lg h-[45%] transition-all hover:bg-teal-600/20"></div>
+<div class="flex-1 bg-teal-600/80 rounded-t-lg h-[80%] transition-all"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-lg h-[65%] transition-all hover:bg-teal-600/20"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-lg h-[50%] transition-all hover:bg-teal-600/20"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-lg h-[75%] transition-all hover:bg-teal-600/20"></div>
+<div class="flex-1 bg-primary h-[95%] rounded-t-lg transition-all"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-lg h-[60%] transition-all hover:bg-teal-600/20"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-lg h-[40%] transition-all hover:bg-teal-600/20"></div>
+</div>
+<div class="flex justify-between mt-4 px-2 text-xs text-on-surface-variant font-medium uppercase tracking-widest">
+<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
+</div>
+</div>
+<!-- Moderation Queue -->
+<div class="bg-surface-container-lowest overflow-hidden rounded-xl shadow-sm">
+<div class="p-8 border-b border-surface-variant flex justify-between items-center">
+<h3 class="font-serif text-2xl font-bold">Moderation Queue</h3>
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-xs font-bold">12 Pending Actions</span>
+</div>
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-label-md uppercase tracking-wider text-on-surface-variant">
+<tr>
+<th class="px-8 py-4 font-semibold">Subject</th>
+<th class="px-8 py-4 font-semibold">Type</th>
+<th class="px-8 py-4 font-semibold">Flagged By</th>
+<th class="px-8 py-4 font-semibold">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-8 py-5">
+<div class="font-medium text-primary">Advanced Thermodynamics</div>
+<div class="text-xs text-on-surface-variant">Potential inaccurate resolution</div>
+</td>
+<td class="px-8 py-5">
+<span class="bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded text-xs font-bold">Content Doubt</span>
+</td>
+<td class="px-8 py-5 text-sm">System Audit</td>
+<td class="px-8 py-5">
+<button class="text-teal-600 font-semibold text-sm hover:underline">Review</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-8 py-5">
+<div class="font-medium text-primary">Dr. Julian Vance</div>
+<div class="text-xs text-on-surface-variant">New Faculty Application</div>
+</td>
+<td class="px-8 py-5">
+<span class="bg-primary-container text-primary-fixed-dim px-2.5 py-1 rounded text-xs font-bold">Onboarding</span>
+</td>
+<td class="px-8 py-5 text-sm">External Referral</td>
+<td class="px-8 py-5">
+<button class="text-teal-600 font-semibold text-sm hover:underline">Review</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-8 py-5">
+<div class="font-medium text-primary">Ethics in AI Discussion</div>
+<div class="text-xs text-on-surface-variant">Community Guideline Violation</div>
+</td>
+<td class="px-8 py-5">
+<span class="bg-error-container text-on-error-container px-2.5 py-1 rounded text-xs font-bold">Violation</span>
+</td>
+<td class="px-8 py-5 text-sm">User Report</td>
+<td class="px-8 py-5">
+<button class="text-teal-600 font-semibold text-sm hover:underline">Review</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Sidebar: Quick Actions & Recent Activity -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Quick Actions -->
+<div class="bg-primary-container text-on-primary rounded-xl p-8 shadow-lg">
+<h3 class="font-serif text-xl font-bold text-white mb-6">Quick Authority Actions</h3>
+<div class="grid grid-cols-1 gap-4">
+<button class="flex items-center gap-4 p-4 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-left">
+<span class="material-symbols-outlined text-teal-400" data-icon="campaign">campaign</span>
+<div>
+<div class="text-sm font-bold">Broadcast Announcement</div>
+<div class="text-xs text-slate-300">Notify all users or faculty</div>
+</div>
+</button>
+<button class="flex items-center gap-4 p-4 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-left">
+<span class="material-symbols-outlined text-teal-400" data-icon="category">category</span>
+<div>
+<div class="text-sm font-bold">Manage Subjects</div>
+<div class="text-xs text-slate-300">Add or archive knowledge nodes</div>
+</div>
+</button>
+<button class="flex items-center gap-4 p-4 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-left">
+<span class="material-symbols-outlined text-teal-400" data-icon="admin_panel_settings">admin_panel_settings</span>
+<div>
+<div class="text-sm font-bold">User Permissions</div>
+<div class="text-xs text-slate-300">Elevate or revoke access</div>
+</div>
+</button>
+</div>
+</div>
+<!-- Recent Activity Feed -->
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<h3 class="font-serif text-xl font-bold mb-6">Recent Activity</h3>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="w-2 h-2 rounded-full bg-teal-600 mt-2 shrink-0"></div>
+<div>
+<p class="text-sm text-primary font-medium">New Faculty Onboarded</p>
+<p class="text-xs text-on-surface-variant">Prof. Elena Rossi joined Mathematics.</p>
+<p class="text-[10px] text-on-surface-variant mt-1 uppercase tracking-widest">12 Minutes Ago</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-2 h-2 rounded-full bg-amber-500 mt-2 shrink-0"></div>
+<div>
+<p class="text-sm text-primary font-medium">Resolution Benchmark Met</p>
+<p class="text-xs text-on-surface-variant">Physics department cleared 98% of pending doubts.</p>
+<p class="text-[10px] text-on-surface-variant mt-1 uppercase tracking-widest">1 Hour Ago</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-2 h-2 rounded-full bg-on-surface-variant mt-2 shrink-0"></div>
+<div>
+<p class="text-sm text-primary font-medium">System Backup Complete</p>
+<p class="text-xs text-on-surface-variant">Automated editorial index secured.</p>
+<p class="text-[10px] text-on-surface-variant mt-1 uppercase tracking-widest">3 Hours Ago</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 py-2 text-sm font-bold text-teal-600 hover:bg-teal-50 rounded-lg transition-colors">
+                            View Audit Log
+                        </button>
+</div>
+<!-- Subject Popularity Heatmap (Visual Only) -->
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<h3 class="font-serif text-xl font-bold mb-6">Subject Demand</h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-xs font-bold mb-1 uppercase tracking-wider">
+<span>Quantum Mechanics</span>
+<span>88%</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-teal-600 w-[88%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold mb-1 uppercase tracking-wider">
+<span>Macroeconomics</span>
+<span>64%</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-teal-600 w-[64%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold mb-1 uppercase tracking-wider">
+<span>Linguistics</span>
+<span>42%</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-teal-600 w-[42%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<footer class="p-10 border-t border-surface-variant text-center">
+<p class="text-xs text-on-surface-variant uppercase tracking-[0.2em]">Scholar Ink Editorial System © 2024</p>
+</footer>
+</main>
+</body></html>

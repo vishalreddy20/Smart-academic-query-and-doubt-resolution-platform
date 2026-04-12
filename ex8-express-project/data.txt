@@ -1,0 +1,2 @@
+This is sample content for Express /data route.
+The file is read using fs.readFile and path.join.

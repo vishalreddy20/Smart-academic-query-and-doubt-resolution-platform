@@ -2,41 +2,40 @@ import crypto from 'crypto';
 import OTP from '../models/OTP.js';
 import { sendOTPEmail, isEmailConfigured } from './emailService.js';
 
+const normalizeEmail = (email = '') => email.trim().toLowerCase();
+
 export const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
 };
 
 export const createAndSendOTP = async (email, purpose = 'signup') => {
   try {
+    const normalizedEmail = normalizeEmail(email);
+
     // Delete any existing OTP for this email
-    await OTP.deleteMany({ email });
+    await OTP.deleteMany({ email: normalizedEmail });
 
     const otp = generateOTP();
     const expiresAt = new Date(Date.now() + parseInt(process.env.OTP_EXPIRE_TIME) * 60 * 1000); // 5 minutes
 
     const otpDoc = await OTP.create({
-      email,
+      email: normalizedEmail,
       otp,
       expiresAt,
       purpose,
     });
 
-    const isDevelopment = process.env.NODE_ENV !== 'production';
-
-    if (isEmailConfigured()) {
-      await sendOTPEmail(email, otp);
-    } else if (isDevelopment) {
-      console.warn(`[DEV OTP FALLBACK] Email transport is not configured. OTP for ${email}: ${otp}`);
-    } else {
+    if (!isEmailConfigured()) {
       throw new Error('Email service is not configured');
     }
+
+    await sendOTPEmail(normalizedEmail, otp);
 
     return {
       success: true,
       message: 'OTP sent to email',
       otpId: otpDoc._id,
-      deliveryMethod: isEmailConfigured() ? 'email' : 'development-fallback',
-      ...(isDevelopment && !isEmailConfigured() ? { devOtp: otp } : {}),
+      deliveryMethod: 'email',
     };
   } catch (error) {
     throw new Error('Failed to create OTP: ' + error.message);
@@ -45,7 +44,8 @@ export const createAndSendOTP = async (email, purpose = 'signup') => {
 
 export const verifyOTP = async (email, otp) => {
   try {
-    const otpDoc = await OTP.findOne({ email });
+    const normalizedEmail = normalizeEmail(email);
+    const otpDoc = await OTP.findOne({ email: normalizedEmail });
 
     if (!otpDoc) {
       throw new Error('OTP not found. Please request a new one.');
@@ -85,11 +85,13 @@ export const verifyOTP = async (email, otp) => {
 
 export const resendOTP = async (email, purpose = 'signup') => {
   try {
+    const normalizedEmail = normalizeEmail(email);
+
     // Delete existing OTP
-    await OTP.deleteMany({ email });
+    await OTP.deleteMany({ email: normalizedEmail });
     
     // Generate new OTP
-    return await createAndSendOTP(email, purpose);
+    return await createAndSendOTP(normalizedEmail, purpose);
   } catch (error) {
     throw new Error('Failed to resend OTP: ' + error.message);
   }

@@ -63,7 +63,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      'Scholar Ink provides the structured environment necessary for meaningful academic discourse. It allows us to reach students globally.',
+      'Tutorify provides the structured environment necessary for meaningful academic discourse. It allows us to reach students globally.',
     name: 'Dr. Sarah Vance',
     role: 'Senior Research Fellow',
   },
@@ -250,7 +250,7 @@ export default function LandingPage() {
       <footer className="bg-surface-container-lowest border-t border-surface-container-high">
         <div className="max-w-7xl mx-auto px-8 py-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
           <div className="space-y-6 max-w-xs">
-            <span className="text-xl font-headline italic text-primary">Scholar Ink</span>
+            <span className="text-xl font-headline italic text-primary">Tutorify</span>
             <p className="text-on-surface-variant text-xs font-label font-medium uppercase tracking-widest leading-loose">
               Editorial Authority in Knowledge. Bridging the gap between inquiry and understanding.
             </p>

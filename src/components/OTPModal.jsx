@@ -2,18 +2,13 @@ import { useState, useEffect } from 'react';
 import { verifyOTP, resendOTP } from '../services/api';
 import { AlertCircle, CheckCircle, Clock } from 'lucide-react';
 
-export default function OTPModal({ email, devOtp: initialDevOtp = '', onSuccess }) {
+export default function OTPModal({ email, onSuccess }) {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [resendLoading, setResendLoading] = useState(false);
   const [resendSuccess, setResendSuccess] = useState('');
-  const [devOtp, setDevOtp] = useState(initialDevOtp);
-
-  useEffect(() => {
-    setDevOtp(initialDevOtp);
-  }, [initialDevOtp]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -63,13 +58,13 @@ export default function OTPModal({ email, devOtp: initialDevOtp = '', onSuccess 
       setLoading(true);
       setError('');
 
-      await verifyOTP({
+      const { data } = await verifyOTP({
         email,
         otp: otpValue,
       });
 
       setResendSuccess('Email verified successfully! Redirecting...');
-      setTimeout(onSuccess, 1500);
+      setTimeout(() => onSuccess(data), 1500);
     } catch (err) {
       setError(err.response?.data?.message || 'Invalid OTP. Please try again.');
       // Clear OTP inputs on error
@@ -85,10 +80,9 @@ export default function OTPModal({ email, devOtp: initialDevOtp = '', onSuccess 
       setError('');
       setResendSuccess('');
 
-      const { data } = await resendOTP({ email });
+      await resendOTP({ email });
 
-      setDevOtp(data.devOtp || '');
-      setResendSuccess(data.devOtp ? 'OTP regenerated. Use the development code shown below.' : 'OTP sent to your email!');
+      setResendSuccess('OTP sent to your email!');
       setTimeLeft(300);
       setOtp(['', '', '', '', '', '']);
 
@@ -123,14 +117,6 @@ export default function OTPModal({ email, devOtp: initialDevOtp = '', onSuccess 
         We've sent a 6-digit OTP to<br />
         <span className="font-medium">{email}</span>
       </p>
-
-      {devOtp && (
-        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg">
-          <p className="text-sm font-medium mb-1">Development email fallback is active.</p>
-          <p className="text-sm">SMTP is not configured, so use this OTP:</p>
-          <p className="mt-2 text-2xl font-bold tracking-[0.35em] text-center">{devOtp}</p>
-        </div>
-      )}
 
       {error && (
         <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-start gap-3">

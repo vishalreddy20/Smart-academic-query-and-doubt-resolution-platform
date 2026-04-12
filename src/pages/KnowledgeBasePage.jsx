@@ -3,105 +3,51 @@ import { getKnowledgeBase, getSubjects } from '../services/api';
 import TopNavBar from '../components/TopNavBar';
 import { AlertCircle } from 'lucide-react';
 
-const SUBJECTS_DATA = [
-  'All Disciplines',
-  'Quantum Physics',
-  'Macroeconomics',
-  'Philosophy of Mind',
-  'Bioinformatics',
-];
-
 const SORT_OPTIONS = ['Most Cited', 'Most Helpful', 'Recent Arrivals'];
 
-const SAMPLE_CARDS = [
-  {
-    id: 1,
-    subject: 'Macroeconomics',
-    title: 'Impact of Algorithmic Trading on Global Market Volatility',
-    desc: 'Recent longitudinal studies suggest that high-frequency algorithmic models contribute significantly to "flash crashes" but provide liquidity during standard periods...',
-    curator: 'Dr. Elena Rostova',
-    date: 'Nov 14, 2023',
-    citations: '1.2k',
-    helpful: '98%',
-    verified: true,
-  },
-  {
-    id: 2,
-    subject: 'Quantum Physics',
-    title: 'Entanglement Distribution in Cryogenic Networks',
-    desc: 'The primary challenge remains the decoherence of qubits over long-distance fiber optic cables. Our latest query synthesis explores the use of diamond-vacancy centers...',
-    curator: 'Prof. Julian Thorne',
-    date: 'Oct 28, 2023',
-    citations: '854',
-    helpful: '94%',
-    verified: true,
-  },
-  {
-    id: 3,
-    subject: 'Philosophy',
-    title: 'Ethics of Generative Consciousness: A Post-Materialist Perspective',
-    desc: 'As we move toward neural surrogates, the definition of "experience" undergoes a radical shift. This comprehensive dossier examines the phenomenological status of synthetic minds.',
-    curator: 'Dr. Silas Vance',
-    date: 'Sept 12, 2023',
-    citations: '2.8k',
-    helpful: '96%',
-    verified: true,
-    featured: true,
-  },
-  {
-    id: 4,
-    subject: 'Bioinformatics',
-    title: 'Mapping Neural Plasticity via Proteomic Sequencing',
-    desc: 'Using CRISPR-based tagging, researchers have identified key protein markers that indicate synaptic reorganization during late-stage learning cycles...',
-    curator: 'Dr. Sarah Chen',
-    date: 'Dec 01, 2023',
-    citations: '2.1k',
-    helpful: '99%',
-    verified: true,
-  },
-  {
-    id: 5,
-    subject: 'Macroeconomics',
-    title: 'Post-Fiat Currencies: Stability in Decentralized Governance',
-    desc: 'The volatility of legacy cryptocurrencies is addressed through algorithmic reserve protocols. This inquiry analyzes the longevity of "stable-asset" ecosystems...',
-    curator: 'Markus Aureli',
-    date: 'Nov 22, 2023',
-    citations: '340',
-    helpful: '87%',
-    verified: true,
-  },
-];
-
 export default function KnowledgeBasePage() {
-  const [doubts, setDoubts] = useState(SAMPLE_CARDS);
+  const [doubts, setDoubts] = useState([]);
   const [subjects, setSubjects] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState('All Disciplines');
+  const [selectedSubject, setSelectedSubject] = useState('all');
   const [selectedSort, setSelectedSort] = useState('Most Cited');
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    fetchSubjects();
+    fetchSubjectsAndKnowledgeBase();
   }, []);
 
-  const fetchSubjects = async () => {
+  useEffect(() => {
+    if (subjects.length === 0) return;
+    handleSearch();
+  }, [selectedSubject]);
+
+  const fetchSubjectsAndKnowledgeBase = async () => {
     try {
-      const { data } = await getSubjects();
-      setSubjects(data.subjects || []);
+      setLoading(true);
+      setError('');
+      const [subjectsRes, kbRes] = await Promise.all([
+        getSubjects(),
+        getKnowledgeBase('', '', ''),
+      ]);
+      setSubjects(subjectsRes.data.subjects || []);
+      setDoubts(kbRes.data.doubts || []);
     } catch (err) {
-      console.error('Error fetching subjects:', err);
+      setError(err.response?.data?.message || 'Failed to load knowledge base');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSearch = async () => {
-    if (!searchQuery.trim()) return;
     try {
       setLoading(true);
       setError('');
-      const { data } = await getKnowledgeBase(searchQuery, '', '');
-      setDoubts(data.doubts || SAMPLE_CARDS);
+      const subjectId = selectedSubject === 'all' ? '' : selectedSubject;
+      const { data } = await getKnowledgeBase(searchQuery.trim(), subjectId, '');
+      setDoubts(data.doubts || []);
       setCurrentPage(1);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to load knowledge base');
@@ -110,10 +56,14 @@ export default function KnowledgeBasePage() {
     }
   };
 
-  const filteredCards = doubts.filter(card => {
-    const subjectMatch = selectedSubject === 'All Disciplines' || card.subject === selectedSubject;
-    const searchMatch = !searchQuery || card.title.toLowerCase().includes(searchQuery.toLowerCase());
-    return subjectMatch && searchMatch;
+  const filteredCards = [...doubts].sort((a, b) => {
+    if (selectedSort === 'Most Helpful') {
+      return (b.studentRating || 0) - (a.studentRating || 0);
+    }
+    if (selectedSort === 'Recent Arrivals') {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    }
+    return (b.views || 0) - (a.views || 0);
   });
 
   const itemsPerPage = 6;
@@ -169,20 +119,20 @@ export default function KnowledgeBasePage() {
         <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           {/* Subject Filters */}
           <div className="flex flex-wrap gap-3">
-            {SUBJECTS_DATA.map((subject) => (
+            {[{ _id: 'all', name: 'All CSE Subjects' }, ...subjects].map((subject) => (
               <button
-                key={subject}
+                key={subject._id}
                 onClick={() => {
-                  setSelectedSubject(subject);
+                  setSelectedSubject(subject._id);
                   setCurrentPage(1);
                 }}
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                  selectedSubject === subject
+                  selectedSubject === subject._id
                     ? 'bg-secondary text-white'
                     : 'bg-white text-on-surface border border-outline-variant/30 hover:border-secondary'
                 }`}
               >
-                {subject}
+                {subject.name}
               </button>
             ))}
           </div>
@@ -229,7 +179,7 @@ export default function KnowledgeBasePage() {
             <button
               onClick={() => {
                 setSearchQuery('');
-                setSelectedSubject('All Disciplines');
+                setSelectedSubject('all');
                 setCurrentPage(1);
               }}
               className="px-6 py-3 bg-secondary text-white rounded-lg font-bold text-sm hover:opacity-90 transition-opacity"
@@ -243,97 +193,51 @@ export default function KnowledgeBasePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
               {displayCards.map((card) => (
                 <div
-                  key={card.id}
-                  className={`group ${
-                    card.featured
-                      ? 'lg:row-span-2 bg-primary-container text-on-primary rounded-xl p-8 shadow-lg border border-transparent hover:border-secondary/50'
-                      : 'bg-surface-container-lowest rounded-xl p-8 shadow-sm border border-transparent hover:border-secondary/20'
-                  } transition-all flex flex-col h-full`}
+                  key={card._id}
+                  className="group bg-surface-container-lowest rounded-xl p-8 shadow-sm border border-transparent hover:border-secondary/20 transition-all flex flex-col h-full"
                 >
                   {/* Header */}
                   <div className="flex justify-between items-start mb-6">
-                    <span className={`px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-widest ${
-                      card.featured
-                        ? 'bg-secondary text-white'
-                        : 'bg-secondary-container text-on-secondary-container'
-                    }`}>
-                      {card.subject}
+                    <span className="px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-widest bg-secondary-container text-on-secondary-container">
+                      {card.subjectId?.name || 'General'}
                     </span>
-                    {card.verified && (
-                      <div className={`flex items-center gap-1 ${card.featured ? 'text-secondary-fixed' : 'text-secondary'}`}>
-                        <span
-                          className="material-symbols-outlined text-sm"
-                          style={{ fontVariationSettings: "'FILL' 1" }}
-                        >
-                          verified
-                        </span>
-                        <span className="text-[10px] font-bold uppercase tracking-widest">Verified</span>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-1 text-secondary">
+                      <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        verified
+                      </span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Tutor Solved & Student Rated</span>
+                    </div>
                   </div>
 
                   {/* Title & Description */}
-                  <h3 className={`${
-                    card.featured ? 'text-3xl' : 'text-2xl'
-                  } font-headline font-bold mb-4 leading-snug group-hover:text-secondary transition-colors`}>
+                  <h3 className="text-2xl font-headline font-bold mb-4 leading-snug group-hover:text-secondary transition-colors">
                     {card.title}
                   </h3>
-                  <p className={`text-base leading-relaxed mb-8 flex-grow line-clamp-3 ${
-                    card.featured ? 'text-on-primary-container' : 'text-on-surface-variant'
-                  }`}>
-                    {card.desc}
+                  <p className="text-base text-on-surface-variant leading-relaxed mb-8 flex-grow line-clamp-3">
+                    {card.description}
                   </p>
 
-                  {/* Featured Card Extra Info */}
-                  {card.featured && (
-                    <div className="space-y-4 mb-auto">
-                      <div className="flex items-center gap-4 py-3 border-b border-white/10">
-                        <span className="material-symbols-outlined text-secondary">menu_book</span>
-                        <span className="text-sm">45 Referenced Works</span>
-                      </div>
-                      <div className="flex items-center gap-4 py-3 border-b border-white/10">
-                        <span className="material-symbols-outlined text-secondary">groups</span>
-                        <span className="text-sm">Peer Reviewed by 12 Scholars</span>
-                      </div>
-                    </div>
-                  )}
-
                   {/* Footer */}
-                  <div className={`pt-6 mt-6 border-t ${
-                    card.featured ? 'border-white/10' : 'border-surface-container'
-                  } flex justify-between items-center`}>
+                  <div className="pt-6 mt-6 border-t border-surface-container flex justify-between items-center">
                     <div className="flex items-center gap-3">
                       <img
-                        src={`https://ui-avatars.com/api/?name=${card.curator}&background=random`}
-                        alt={card.curator}
-                        className={`rounded-full object-cover ${
-                          card.featured ? 'w-10 h-10 border-2 border-secondary' : 'w-8 h-8'
-                        }`}
+                        src={`https://ui-avatars.com/api/?name=${card.tutorId?.name || 'Tutor'}&background=random`}
+                        alt={card.tutorId?.name || 'Tutor'}
+                        className="w-8 h-8 rounded-full object-cover"
                       />
                       <div>
-                        <p className={`text-[11px] font-bold ${
-                          card.featured ? 'text-white' : 'text-on-surface'
-                        }`}>
-                          {card.curator}
+                        <p className="text-[11px] font-bold text-on-surface">
+                          {card.tutorId?.name || 'Tutor'}
                         </p>
-                        <p className={`text-[10px] ${
-                          card.featured ? 'text-on-primary-container/60' : 'text-on-surface-variant'
-                        }`}>
-                          {card.date}
+                        <p className="text-[10px] text-on-surface-variant">
+                          {new Date(card.createdAt).toLocaleDateString('en-IN')}
                         </p>
                       </div>
                     </div>
-                    {!card.featured && (
-                      <div className="text-right">
-                        <p className="text-[11px] font-bold text-secondary">{card.citations} Citations</p>
-                        <p className="text-[10px] text-on-surface-variant">{card.helpful} Helpful</p>
-                      </div>
-                    )}
-                    {card.featured && (
-                      <button className="bg-secondary px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest text-white hover:opacity-90 transition-opacity">
-                        Read Dossier
-                      </button>
-                    )}
+                    <div className="text-right">
+                      <p className="text-[11px] font-bold text-secondary">{Number(card.studentRating || 0).toFixed(1)} / 5 Rating</p>
+                      <p className="text-[10px] text-on-surface-variant">{card.views || 0} Views</p>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -398,9 +302,9 @@ export default function KnowledgeBasePage() {
       <footer className="bg-surface-container-low py-12 px-10 border-t border-surface-container-high">
         <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start">
-            <div className="text-xl font-serif italic font-bold text-primary mb-2">Scholar Ink</div>
+            <div className="text-xl font-serif italic font-bold text-primary mb-2">Tutorify</div>
             <p className="text-xs text-on-surface-variant font-medium uppercase tracking-tighter">
-              The Digital Curator for Academic Integrity
+              Our Project for Academic Integrity
             </p>
           </div>
           <div className="flex gap-10">
@@ -415,7 +319,7 @@ export default function KnowledgeBasePage() {
             </a>
           </div>
           <div className="text-[10px] text-on-surface-variant/60 uppercase tracking-widest">
-            © 2024 Scholar Ink. All Rights Reserved.
+            © 2026 Tutorify. All Rights Reserved.
           </div>
         </div>
       </footer>

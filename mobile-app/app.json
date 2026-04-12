@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "Smart Doubt Mobile",
+    "slug": "smart-doubt-mobile",
+    "scheme": "smartdoubtmobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "jsEngine": "hermes",
+    "plugins": ["expo-router"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.smartdoubt.mobile"
+    },
+    "android": {
+      "package": "com.smartdoubt.mobile"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      }
+    }
+  }
+}

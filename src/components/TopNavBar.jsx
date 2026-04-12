@@ -64,7 +64,7 @@ export default function TopNavBar({
                 to={item.path}
                 className={isActive(item.path)
                   ? 'text-secondary font-semibold border-b-2 border-secondary pb-1 text-sm'
-                  : 'text-on-surface-variant font-medium hover:text-secondary transition-colors text-sm pb-1'}
+                  : 'text-slate-300 font-medium hover:text-secondary transition-colors text-sm pb-1'}
               >
                 {item.label}
               </Link>

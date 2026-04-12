@@ -58,9 +58,23 @@ export default function LoginPage() {
     }
   };
 
-  const handleOTPSuccess = () => {
-    setOtpEmail('');
-    setError('Email verified. Please sign in.');
+  const handleOTPSuccess = (verifyData) => {
+    if (verifyData && verifyData.token && verifyData.user) {
+      login({
+        ...verifyData.user,
+        _id: verifyData.user._id,
+        id: verifyData.user._id,
+        token: verifyData.token,
+      });
+
+      if (verifyData.user.role === 'student') navigate('/dashboard');
+      else if (verifyData.user.role === 'tutor' || verifyData.user.role === 'faculty') navigate('/faculty-dashboard');
+      else if (verifyData.user.role === 'admin') navigate('/admin-dashboard');
+      else navigate('/');
+    } else {
+      setOtpEmail('');
+      setError('Email verified. Please sign in.');
+    }
   };
 
   if (otpEmail) {
@@ -82,7 +96,7 @@ export default function LoginPage() {
         <div className="relative z-10 max-w-lg text-center md:text-left">
           <div className="mb-10 inline-flex items-center space-x-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
             <span className="material-symbols-outlined text-secondary-fixed">history_edu</span>
-            <span className="text-white text-xs font-label uppercase tracking-widest">Scholar Ink</span>
+            <span className="text-white text-xs font-label uppercase tracking-widest">Tutorify</span>
           </div>
           <h1 className="font-headline text-white text-5xl md:text-6xl leading-tight mb-6">
             Where Intelligence Meets <i>Clarity</i>.
@@ -99,7 +113,7 @@ export default function LoginPage() {
           {/* Mobile Logo */}
           <div className="md:hidden flex flex-col items-center mb-10 text-center">
             <span className="material-symbols-outlined text-primary text-4xl mb-2">history_edu</span>
-            <h2 className="font-headline text-3xl font-bold text-on-surface">Scholar Ink</h2>
+            <h2 className="font-headline text-3xl font-bold text-on-surface">Tutorify</h2>
           </div>
 
           <header className="mb-10">
@@ -180,7 +194,7 @@ export default function LoginPage() {
             {/* Sign Up Link */}
             <div className="pt-8 border-t border-outline-variant/20 text-center">
               <p className="text-on-surface-variant text-sm">
-                New to Scholar Ink?{' '}
+                New to Tutorify?{' '}
                 <Link to="/register" className="text-secondary hover:text-on-secondary-container font-semibold transition-colors">
                   Create account
                 </Link>

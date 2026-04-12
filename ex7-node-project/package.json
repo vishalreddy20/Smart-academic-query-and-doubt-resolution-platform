@@ -1,0 +1,10 @@
+{
+  "name": "ex7-node-project",
+  "version": "1.0.0",
+  "description": "ExNo:7 Node.js built-in modules demo",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
