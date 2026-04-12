@@ -89,8 +89,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUp = async (email: string, password: string, fullName: string, role: 'student' | 'faculty' | 'admin', inviteCode?: string) => {
     // If creating an admin, validate invite code to avoid accidental admin creation
     if (role === 'admin') {
-      const required = (import.meta.env.VITE_ADMIN_INVITE_CODE || 'ADMIN@2026').toString().trim();
+      const required = (import.meta.env.VITE_ADMIN_INVITE_CODE ?? '').toString().trim();
       const provided = (inviteCode ?? '').toString().trim();
+      if (!required) throw new Error('Admin invite code is not configured on the client');
       if (!provided) throw new Error('Admin invite code is required to register as admin');
       if (provided !== required) throw new Error('Invalid admin invite code');
     }
