@@ -85,6 +85,7 @@ export const register = asyncHandler(async (req, res) => {
       ...(otpResult.deliveryMethod ? { deliveryMethod: otpResult.deliveryMethod } : {}),
     });
   } catch (error) {
+    console.error('Registration OTP Error:', error);
     await User.deleteOne({ _id: user._id });
     return res.status(500).json({ message: error.message || 'Failed to send OTP email' });
   }

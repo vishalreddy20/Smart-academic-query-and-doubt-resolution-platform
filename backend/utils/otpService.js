@@ -16,7 +16,8 @@ export const createAndSendOTP = async (email, purpose = 'signup') => {
     await OTP.deleteMany({ email: normalizedEmail });
 
     const otp = generateOTP();
-    const expiresAt = new Date(Date.now() + parseInt(process.env.OTP_EXPIRE_TIME) * 60 * 1000); // 5 minutes
+    const expireMinutes = parseInt(process.env.OTP_EXPIRE_TIME) || 5; // Default to 5 minutes if missing
+    const expiresAt = new Date(Date.now() + expireMinutes * 60 * 1000);
 
     const otpDoc = await OTP.create({
       email: normalizedEmail,
