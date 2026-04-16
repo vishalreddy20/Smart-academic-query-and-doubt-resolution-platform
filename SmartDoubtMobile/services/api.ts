@@ -12,7 +12,7 @@ import {
 } from '../types';
 
 // For Android emulator use 10.0.2.2, for physical device use your machine's WiFi IP
-const API_BASE = 'http://192.168.1.41:5000/api';
+const API_BASE = 'http://10.9.120.58:5000/api';
 
 const api: AxiosInstance = axios.create({
   baseURL: API_BASE,
