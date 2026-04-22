@@ -94,7 +94,7 @@ The Team Portal serves as the entry point for the management module.
 
 **Finding:** The portal successfully integrates into the broader application with a dedicated, focused UI.
 
-![Team Home Page](./report-assets/01-team-home.png)
+![Team Home Page](report-assets/01-team-home.png)
 
 ### 5.2 Add Member Page
 The registration interface for new team members.
@@ -104,7 +104,7 @@ The registration interface for new team members.
 
 **Finding:** Multipart form data is handled correctly, seamlessly transmitting text data and image files to the Express backend.
 
-![Add Member Page](./report-assets/02-add-member.png)
+![Add Member Page](report-assets/02-add-member.png)
 
 ### 5.3 View Members Page
 A directory view of all team members.
@@ -114,7 +114,7 @@ A directory view of all team members.
 
 **Finding:** State management effectively handles loading states, empty states (prompting to add the first member), and robust image fallback logic.
 
-![View Members Page](./report-assets/03-view-members.png)
+![View Members Page](report-assets/03-view-members.png)
 
 ### 5.4 Member Details Page
 An expanded view for individual member profiles.
@@ -124,7 +124,7 @@ An expanded view for individual member profiles.
 
 **Finding:** The frontend successfully binds to dynamic URL parameters (`/:id`) to fetch and display specific MongoDB records.
 
-![Member Details Page](./report-assets/04-member-details.png)
+![Member Details Page](report-assets/04-member-details.png)
 
 ---
 
@@ -154,14 +154,14 @@ Accessing `/api/members` returns a JSON array of all registered members.
 
 **Finding:** The API correctly serializes MongoDB documents, exposing necessary fields including the reference to the uploaded image filename.
 
-![API All Members JSON](./report-assets/05-api-all-members.png)
+![API All Members JSON](report-assets/05-api-all-members.png)
 
 ### 7.2 GET Member by ID API
 Accessing `/api/members/:id` (using a valid ObjectId) returns the complete JSON object for a single member.
 
 **Finding:** The backend successfully queries by ID and returns isolated records, which populates the Member Details frontend page. The route is protected against invalid ID formats (CastErrors) to prevent server crashes.
 
-![API Member By ID JSON](./report-assets/06-api-member-by-id.png)
+![API Member By ID JSON](report-assets/06-api-member-by-id.png)
 
 ---
 
