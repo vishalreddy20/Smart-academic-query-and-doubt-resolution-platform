@@ -10,6 +10,7 @@ const require = createRequire(import.meta.url);
 const mongoSanitize = require('express-mongo-sanitize');
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 import { isEmailConfigured } from './utils/emailService.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { deleteExpiredOTPs } from './utils/otpService.js';
@@ -22,6 +23,7 @@ import doubtRoutes from './routes/doubtRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
+import membersRoutes from './routes/members.js';
 
 // Load env variables
 dotenv.config();
@@ -153,6 +155,14 @@ apiRouter.get('/subjects', async (req, res) => {
 apiRouter.get('/health', (req, res) => {
   res.json({ status: 'Backend running', timestamp: new Date() });
 });
+
+// Members routes (team assignment) — mounted BEFORE apiRouter to avoid wildcard conflicts
+app.use('/uploads', (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+}, express.static(path.join(__dirname, 'uploads')));
+app.use('/api/members', membersRoutes);
 
 app.use('/api', apiRouter);
 app.use('/', apiRouter); // Mount on / to handle Vercel routePrefix stripping

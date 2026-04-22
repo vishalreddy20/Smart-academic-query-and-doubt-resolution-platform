@@ -19,12 +19,16 @@ import FacultyDashboard from './pages/FacultyDashboard';
 import DoubtDetailPage from './pages/DoubtDetailPage';
 import SubscriptionPage from './pages/SubscriptionPage';
 import ProfilePage from './pages/ProfilePage';
+import TeamHomePage from './pages/TeamHomePage';
+import AddMemberPage from './pages/AddMemberPage';
+import ViewMembersPage from './pages/ViewMembersPage';
+import MemberDetailsPage from './pages/MemberDetailsPage';
 
 function AppContent() {
   const { user, loading } = useAuth();
   const location = useLocation();
 
-  const hideNavbarOn = ['/', '/student', '/post-doubt', '/tutor', '/admin', '/faculty', '/knowledge-base'];
+  const hideNavbarOn = ['/', '/student', '/post-doubt', '/tutor', '/admin', '/faculty', '/knowledge-base', '/team'];
   const shouldHideNavbar = hideNavbarOn.some((path) => location.pathname === path || location.pathname.startsWith(`${path}/`));
 
   if (loading) {
@@ -134,6 +138,12 @@ function AppContent() {
             </ProtectedRoute>
           }
         />
+
+        {/* Team Management Routes (Assignment) */}
+        <Route path="/team" element={<TeamHomePage />} />
+        <Route path="/team/add" element={<AddMemberPage />} />
+        <Route path="/team/view" element={<ViewMembersPage />} />
+        <Route path="/team/members/:id" element={<MemberDetailsPage />} />
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" />} />
