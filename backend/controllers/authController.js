@@ -23,7 +23,9 @@ export const register = asyncHandler(async (req, res) => {
   const { name, email, password, confirmPassword, role, phone, college, branch, graduationYear, expertise } = req.body;
   const normalizedEmail = normalizeEmail(email);
 
-  if (!isEmailConfigured()) {
+  const requireEmailOtp = `${process.env.REQUIRE_EMAIL_OTP ?? 'true'}`.toLowerCase() === 'true';
+
+  if (requireEmailOtp && !isEmailConfigured()) {
     return res.status(503).json({
       message: 'Email OTP service is not configured. Set EMAIL_SERVICE, EMAIL_HOST, EMAIL_PORT, EMAIL_SECURE, EMAIL_USER, EMAIL_PASSWORD, and EMAIL_FROM in backend/.env and restart backend.',
     });
@@ -196,7 +198,9 @@ export const resendOTPCode = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const normalizedEmail = normalizeEmail(email);
 
-  if (!isEmailConfigured()) {
+  const requireEmailOtp = `${process.env.REQUIRE_EMAIL_OTP ?? 'true'}`.toLowerCase() === 'true';
+
+  if (requireEmailOtp && !isEmailConfigured()) {
     return res.status(503).json({
       message: 'Email OTP service is not configured. Set EMAIL_SERVICE, EMAIL_HOST, EMAIL_PORT, EMAIL_SECURE, EMAIL_USER, EMAIL_PASSWORD, and EMAIL_FROM in backend/.env and restart backend.',
     });

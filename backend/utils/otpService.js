@@ -26,11 +26,17 @@ export const createAndSendOTP = async (email, purpose = 'signup') => {
       purpose,
     });
 
-    if (!isEmailConfigured()) {
+    const requireEmailOtp = `${process.env.REQUIRE_EMAIL_OTP ?? 'true'}`.toLowerCase() === 'true';
+
+    if (requireEmailOtp && !isEmailConfigured()) {
       throw new Error('Email service is not configured');
     }
 
-    await sendOTPEmail(normalizedEmail, otp);
+    if (isEmailConfigured()) {
+      await sendOTPEmail(normalizedEmail, otp);
+    } else {
+      console.log(`[DEV MODE] OTP for ${normalizedEmail} is ${otp}`);
+    }
 
     return {
       success: true,
