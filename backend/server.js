@@ -180,7 +180,12 @@ if (isProduction) {
       return next();
     }
 
-    return res.sendFile(path.join(frontendDistPath, 'index.html'));
+    const indexPath = path.join(frontendDistPath, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      return res.sendFile(indexPath);
+    } else {
+      return res.status(200).send("SmartDoubt API Backend is running properly.");
+    }
   });
 }
 
