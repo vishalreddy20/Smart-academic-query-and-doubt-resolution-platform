@@ -41,7 +41,11 @@ app.use(helmet());
 app.use(morgan('combined'));
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://smart-academic-query-and-doubt-reso.vercel.app'],
+    origin: [
+      'http://localhost:5173',
+      'https://smart-academic-query-and-doubt-reso.vercel.app',
+      process.env.FRONTEND_URL
+    ].filter(Boolean),
     credentials: true,
   })
 );
