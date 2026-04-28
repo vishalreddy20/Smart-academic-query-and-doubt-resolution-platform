@@ -4,9 +4,9 @@
 
 Submitted by
 
-**DHONE VISHAL GOWTHAM REDDY** [RA2311056010013]
-**TADDI GNANA PRASANNA** [RA2311056010025]
-**SARAYU M** [RA2310056010048]
+**MOKSHAGNA ALAPARTHI** [RA2311056010044]
+**NAYANA DINESH** [RA2311056010017]
+**HIYA JAIN** [RA2311056010008]
 
 Under the Guidance of
 
@@ -30,7 +30,7 @@ with specialization in Data Science
 
 ## BONAFIDE CERTIFICATE
 
-Certified that 21CSS301T Full Stack Development report titled **"Smart Academic Query & Doubt Resolution Platform"** is the bonafide work of **"Dhone Vishal Gowtham Reddy [RA2311056010013], Taddi Gnana Prasanna [RA2311056010025], Sarayu M [RA2310056010048]"** who carried out the project work under my supervision. Certified further, that to the best of my knowledge the work reported here in does not form any other project report or dissertation on the basis of which a degree or award was conferred on an earlier occasion on this or any other candidate.
+Certified that 21CSS301T Full Stack Development report titled **"Smart Academic Query & Doubt Resolution Platform"** is the bonafide work of **"Mokshagna Alaparthi [RA2311056010044], Nayana Dinesh [RA2311056010017], Hiya Jain [RA2311056010008]"** who carried out the project work under my supervision. Certified further, that to the best of my knowledge the work reported here in does not form any other project report or dissertation on the basis of which a degree or award was conferred on an earlier occasion on this or any other candidate.
 
 | | |
 |:---|:---|
@@ -59,9 +59,9 @@ We sincerely thank all the staff members of Data Science and Business Systems, S
 
 Finally, we would like to thank our parents, family members, and friends for their unconditional love, constant support and encouragement.
 
-**Dhone Vishal Gowtham Reddy – RA2311056010013**
-**Taddi Gnana Prasanna – RA2311056010025**
-**Sarayu M – RA2310056010048**
+**Mokshagna Alaparthi – RA2311056010044**
+**Nayana Dinesh – RA2311056010017**
+**Hiya Jain – RA2311056010008**
 
 ---
 
