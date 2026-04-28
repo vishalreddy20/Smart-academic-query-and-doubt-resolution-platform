@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120">
+  <defs>
+    <linearGradient id="erbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fbfcfd" />
+      <stop offset="100%" stop-color="#f3f7f8" />
+    </linearGradient>
+    <linearGradient id="entityA" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1f2937" />
+    </linearGradient>
+    <linearGradient id="entityB" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0b5d56" />
+      <stop offset="100%" stop-color="#0f766e" />
+    </linearGradient>
+    <linearGradient id="entityC" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#075985" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="entityD" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <filter id="ershadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#b8c7cb" flood-opacity="0.35" />
+    </filter>
+    <marker id="endarrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#536a70" />
+    </marker>
+  </defs>
+
+  <rect width="1800" height="1120" fill="url(#erbg)" />
+
+  <text x="900" y="58" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" fill="#102a30">
+    Smart Academic Query and Doubt Resolution Platform - ER Diagram
+  </text>
+  <text x="900" y="90" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#48666d">
+    Active collections and relationships derived from the current backend models and routes
+  </text>
+
+  <g filter="url(#ershadow)">
+    <rect x="70" y="130" width="360" height="420" rx="24" fill="#ffffff" stroke="#c7d6da" stroke-width="2" />
+    <rect x="70" y="130" width="360" height="64" rx="24" fill="url(#entityA)" />
+    <rect x="70" y="170" width="360" height="24" fill="url(#entityA)" />
+    <text x="250" y="170" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#ffffff">Users</text>
+    <text x="98" y="220" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">PK  _id</text>
+    <text x="98" y="248" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">name</text>
+    <text x="98" y="276" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">email (unique)</text>
+    <text x="98" y="304" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">password (hashed)</text>
+    <text x="98" y="332" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">phone, profilePic</text>
+    <text x="98" y="360" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">role: student | tutor | admin</text>
+    <text x="98" y="388" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">isVerified, isApproved, isActive</text>
+    <text x="98" y="416" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">college, branch, graduationYear</text>
+    <text x="98" y="444" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">expertise[]</text>
+    <text x="98" y="472" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">rating, totalDoubtsResolved</text>
+    <text x="98" y="500" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">subscriptionTier, isPremiumActive</text>
+    <text x="98" y="528" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#334e55">subscriptionExpiry, lastLogin</text>
+  </g>
+
+  <g filter="url(#ershadow)">
+    <rect x="780" y="120" width="300" height="240" rx="24" fill="#ffffff" stroke="#c5d9e7" stroke-width="2" />
+    <rect x="780" y="120" width="300" height="64" rx="24" fill="url(#entityC)" />
+    <rect x="780" y="160" width="300" height="24" fill="url(#entityC)" />
+    <text x="930" y="160" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#ffffff">Subjects</text>
+    <text x="808" y="210" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">PK  _id</text>
+    <text x="808" y="238" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">name (unique)</text>
+    <text x="808" y="266" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">branch</text>
+    <text x="808" y="294" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">description</text>
+    <text x="808" y="322" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">icon, color</text>
+    <text x="808" y="350" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">isActive, doubtsCount, tutorsCount</text>
+  </g>
+
+  <g filter="url(#ershadow)">
+    <rect x="430" y="390" width="450" height="520" rx="24" fill="#ffffff" stroke="#c6ddd8" stroke-width="2" />
+    <rect x="430" y="390" width="450" height="64" rx="24" fill="url(#entityB)" />
+    <rect x="430" y="430" width="450" height="24" fill="url(#entityB)" />
+    <text x="655" y="430" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#ffffff">Doubts</text>
+    <text x="458" y="480" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">PK  _id</text>
+    <text x="458" y="508" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">FK  studentId -> Users._id</text>
+    <text x="458" y="536" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">FK  subjectId -> Subjects._id</text>
+    <text x="458" y="564" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">FK  tutorId -> Users._id (optional)</text>
+    <text x="458" y="592" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">title, description</text>
+    <text x="458" y="620" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">attachments[], tags[]</text>
+    <text x="458" y="648" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">difficulty</text>
+    <text x="458" y="676" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">status: open | claimed | submitted | resolved</text>
+    <text x="458" y="704" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">solution, solutionFiles[]</text>
+    <text x="458" y="732" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">studentRating, studentFeedback</text>
+    <text x="458" y="760" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">priorityScore, queuedAt, claimedAt</text>
+    <text x="458" y="788" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">responseTime, slaBreached, resolvedAt</text>
+    <text x="458" y="816" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">reopenCount, isReopened, reopenedAt</text>
+    <text x="458" y="844" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">views, createdAt, updatedAt</text>
+    <text x="458" y="882" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#5d817d">Text index on title, description, and tags</text>
+  </g>
+
+  <g filter="url(#ershadow)">
+    <rect x="1110" y="420" width="340" height="300" rx="24" fill="#ffffff" stroke="#d2d0fb" stroke-width="2" />
+    <rect x="1110" y="420" width="340" height="64" rx="24" fill="url(#entityD)" />
+    <rect x="1110" y="460" width="340" height="24" fill="url(#entityD)" />
+    <text x="1280" y="460" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#ffffff">Subscriptions</text>
+    <text x="1138" y="510" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">PK  _id</text>
+    <text x="1138" y="538" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">FK  userId -> Users._id (unique)</text>
+    <text x="1138" y="566" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">FK  paymentId -> Payments._id (optional)</text>
+    <text x="1138" y="594" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">planType, status</text>
+    <text x="1138" y="622" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">startDate, endDate, autoRenew</text>
+    <text x="1138" y="650" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">maxDoubtsPerMonth, doubtsUsedThisMonth</text>
+    <text x="1138" y="678" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">features.*</text>
+    <text x="1138" y="706" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">cancellationReason, cancelledAt</text>
+  </g>
+
+  <g filter="url(#ershadow)">
+    <rect x="1480" y="390" width="270" height="340" rx="24" fill="#ffffff" stroke="#c5d9e7" stroke-width="2" />
+    <rect x="1480" y="390" width="270" height="64" rx="24" fill="url(#entityC)" />
+    <rect x="1480" y="430" width="270" height="24" fill="url(#entityC)" />
+    <text x="1615" y="430" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#ffffff">Payments</text>
+    <text x="1508" y="480" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">PK  _id</text>
+    <text x="1508" y="508" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">FK  userId -> Users._id</text>
+    <text x="1508" y="536" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">orderId, paymentId</text>
+    <text x="1508" y="564" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">amount, currency</text>
+    <text x="1508" y="592" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">planType, planDuration</text>
+    <text x="1508" y="620" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">paymentStatus, paymentMethod</text>
+    <text x="1508" y="648" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">signature, paidAt</text>
+    <text x="1508" y="676" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#315871">refundId, refundStatus, refundedAt</text>
+  </g>
+
+  <g filter="url(#ershadow)">
+    <rect x="70" y="650" width="340" height="250" rx="24" fill="#ffffff" stroke="#c6ddd8" stroke-width="2" />
+    <rect x="70" y="650" width="340" height="64" rx="24" fill="url(#entityB)" />
+    <rect x="70" y="690" width="340" height="24" fill="url(#entityB)" />
+    <text x="240" y="690" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#ffffff">OTPs</text>
+    <text x="98" y="740" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">PK  _id</text>
+    <text x="98" y="768" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">email</text>
+    <text x="98" y="796" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">otp</text>
+    <text x="98" y="824" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">attempts, maxAttempts</text>
+    <text x="98" y="852" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">expiresAt (TTL indexed)</text>
+    <text x="98" y="880" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#345a57">isVerified, purpose</text>
+  </g>
+
+  <g filter="url(#ershadow)">
+    <rect x="1110" y="120" width="340" height="260" rx="24" fill="#ffffff" stroke="#d2d0fb" stroke-width="2" />
+    <rect x="1110" y="120" width="340" height="64" rx="24" fill="url(#entityD)" />
+    <rect x="1110" y="160" width="340" height="24" fill="url(#entityD)" />
+    <text x="1280" y="160" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#ffffff">Members</text>
+    <text x="1138" y="210" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">PK  _id</text>
+    <text x="1138" y="238" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">name, rollNumber</text>
+    <text x="1138" y="266" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">year, degree</text>
+    <text x="1138" y="294" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">aboutProject</text>
+    <text x="1138" y="322" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">hobbies[]</text>
+    <text x="1138" y="350" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">certificate, internship</text>
+    <text x="1138" y="378" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#4f488f">aboutYourAim, image</text>
+  </g>
+
+  <path d="M 430 300 C 500 300, 500 480, 430 510" fill="none" stroke="#536a70" stroke-width="4" marker-end="url(#endarrow)" />
+  <text x="330" y="402" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#536a70">1 student can post many doubts</text>
+
+  <path d="M 430 370 C 520 370, 520 560, 430 560" fill="none" stroke="#536a70" stroke-width="4" marker-end="url(#endarrow)" />
+  <text x="308" y="528" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#536a70">1 tutor can resolve 0..many doubts</text>
+
+  <path d="M 930 360 C 930 385, 760 385, 760 390" fill="none" stroke="#536a70" stroke-width="4" marker-end="url(#endarrow)" />
+  <text x="975" y="382" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#536a70">1 subject categorizes many doubts</text>
+
+  <path d="M 360 550 C 360 930, 960 930, 1110 610" fill="none" stroke="#536a70" stroke-width="4" marker-end="url(#endarrow)" />
+  <text x="705" y="952" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#536a70">Users to Subscriptions: 1 to 0..1</text>
+
+  <path d="M 390 550 C 430 995, 1410 995, 1480 560" fill="none" stroke="#536a70" stroke-width="4" marker-end="url(#endarrow)" />
+  <text x="1045" y="998" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#536a70">Users to Payments: 1 to many</text>
+
+  <path d="M 1450 560 C 1470 560, 1470 560, 1480 560" fill="none" stroke="#536a70" stroke-width="4" marker-end="url(#endarrow)" />
+  <text x="1465" y="540" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#536a70">subscription may reference the activating payment</text>
+
+  <path d="M 240 550 C 240 600, 240 600, 240 650" fill="none" stroke="#536a70" stroke-width="4" marker-end="url(#endarrow)" />
+  <text x="278" y="612" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#536a70">email-based OTP history</text>
+
+  <text x="1280" y="404" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#536a70">
+    Team-member profiles are stored independently from the main academic workflow
+  </text>
+  <text x="900" y="1068" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#597279">
+    Note: Plan and Review models are present in the repository for future expansion, but they are not part of the active user flow represented here.
+  </text>
+</svg>
