@@ -62,6 +62,12 @@ export default function RegisterScreen() {
         return;
       }
 
+      if (response.requiresOTPVerification) {
+        Alert.alert('OTP Sent', response.message || 'Please check your email for the verification code.');
+        router.push({ pathname: '/(auth)/verify-otp', params: { email: response.email || trimmedEmail } });
+        return;
+      }
+
       Alert.alert('Registration successful', response.message || 'Account created. Please log in to continue.');
       router.replace('/(auth)/login');
     } catch (error: any) {

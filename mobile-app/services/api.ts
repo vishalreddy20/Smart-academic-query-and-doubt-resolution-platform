@@ -135,7 +135,24 @@ export const registerRequest = async (payload: { name: string; email: string; pa
     token: data.token as string | undefined,
     user: data.user ? normalizeUser(data.user) : undefined,
     message: data.message as string | undefined,
+    email: data.email as string | undefined,
     requiresOTPVerification: Boolean(data.requiresOTPVerification),
+  };
+};
+
+export const verifyOtpRequest = async (payload: { email: string; otp: string }) => {
+  const { data } = await api.post('/auth/verify-otp', payload);
+  return {
+    token: data.token as string,
+    user: data.user ? normalizeUser(data.user) : undefined,
+    message: data.message as string | undefined,
+  };
+};
+
+export const resendOtpRequest = async (email: string) => {
+  const { data } = await api.post('/auth/resend-otp', { email });
+  return {
+    message: data.message as string | undefined,
   };
 };
 
