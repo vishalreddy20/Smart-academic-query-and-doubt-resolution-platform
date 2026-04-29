@@ -51,6 +51,25 @@ export const register = asyncHandler(async (req, res) => {
       return res.status(400).json({ message: 'Email already registered' });
     }
 
+    // If OTP is disabled, auto-verify the existing unverified user
+    if (!requireEmailOtp) {
+      existingUser.isVerified = true;
+      await existingUser.save();
+      const token = generateToken(existingUser._id, existingUser.role);
+      return res.status(200).json({
+        message: 'Account verified successfully',
+        token,
+        user: {
+          _id: existingUser._id,
+          name: existingUser.name,
+          email: existingUser.email,
+          role: existingUser.role,
+          isVerified: true,
+          isApproved: existingUser.isApproved,
+        },
+      });
+    }
+
     const otpResult = await resendOTP(normalizedEmail, 'signup');
 
     return res.status(200).json({
@@ -68,12 +87,30 @@ export const register = asyncHandler(async (req, res) => {
     email: normalizedEmail,
     password,
     role: role || 'student',
+    isVerified: !requireEmailOtp,
     phone: phone || '',
     college: college || '',
     branch: branch || '',
     graduationYear: graduationYear || '',
     expertise: expertise || [],
   });
+
+  // If OTP is not required, auto-verify and return token
+  if (!requireEmailOtp) {
+    const token = generateToken(user._id, user.role);
+    return res.status(201).json({
+      message: 'User registered successfully',
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isVerified: true,
+        isApproved: user.isApproved,
+      },
+    });
+  }
 
   // Generate and send OTP
   try {

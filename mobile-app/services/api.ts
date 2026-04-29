@@ -40,7 +40,7 @@ const normalizeRole = (role?: string): Role => {
 };
 
 export const normalizeUser = (user: ApiUser | User): User => ({
-  id: user._id || user.id || '',
+  id: (user as ApiUser)._id || user.id || '',
   name: user.name,
   email: user.email,
   role: normalizeRole(user.role),
@@ -127,6 +127,7 @@ export const registerRequest = async (payload: { name: string; email: string; pa
     name: payload.name,
     email: payload.email,
     password: payload.password,
+    confirmPassword: payload.password,
     role: backendRole,
   });
 
