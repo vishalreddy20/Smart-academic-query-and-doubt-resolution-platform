@@ -47,8 +47,11 @@ const createTransporter = () => {
   const config = normalizeEmailConfig();
 
   if (config.isGmail) {
+    // Render often hangs on port 465 with Google SMTP. Force port 587 (STARTTLS).
     return nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
       auth: {
         user: config.user,
         pass: config.password,
